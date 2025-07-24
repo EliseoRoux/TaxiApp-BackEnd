@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 public class Reserva {
     private int idReserva;
+    private Conductor conductor;
+    private Cliente cliente;
     private String origen;
     private String destino;
     private int nPersona;
@@ -19,9 +21,11 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String origen, String destino, int nPersona, LocalDate fechaReserva,
+    public Reserva(Cliente cliente, Conductor conductor, String origen, String destino, int nPersona, LocalDate fechaReserva,
             String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
 
+        this.cliente = cliente;
+        this.conductor = conductor;
         this.origen = origen;
         this.destino = destino;
         this.nPersona = nPersona;
@@ -37,6 +41,22 @@ public class Reserva {
     // Getters and Setters
     public int getIdReserva() {
         return idReserva;
+    }
+
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
+    }
+
+    public Conductor getConductor() {
+        return conductor;
+    }
+
+    public void setConductor(Conductor conductor) {
+        this.conductor = conductor;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
     }
     public String getOrigen() {
         return origen;
@@ -110,11 +130,6 @@ public class Reserva {
         this.hora = hora;
     }
 
-    @Override
-    public String toString() {
-        return "Reserva{" + "origen=" + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fechaReserva="
-                + fechaReserva + ", requisitos=" + requisitos + ", precio=" + precio + ", precio10=" + precio10
-                + ", eurotaxi=" + eurotaxi + '}';
-    }
+   
 
 }

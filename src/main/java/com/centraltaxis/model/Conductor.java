@@ -12,7 +12,7 @@ public class Conductor {
 
     }
 
-    public Conductor(int id, String nombre, int telefono) {
+    public Conductor(int id, String nombre, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;

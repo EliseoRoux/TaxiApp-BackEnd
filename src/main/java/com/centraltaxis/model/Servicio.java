@@ -7,8 +7,8 @@ public class Servicio {
 
     //Atributos
     private int idServicio;
-    private int idConductor;
-    private int idCliente;
+    private Conductor conductor;
+    private Cliente cliente;
     private String origen;
     private String destino;
     private int nPersona;
@@ -23,7 +23,7 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio(String origen, String destino, int nPersona, LocalDate fecha, String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi, int idCliente, int idConductor) {
+    public Servicio(Conductor conductor, Cliente cliente, String origen, String destino, int nPersona, LocalDate fecha, String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
         this.origen = origen;
         this.destino = destino;
         this.nPersona = nPersona;
@@ -33,8 +33,8 @@ public class Servicio {
         this.precio10 = precio10;
         this.hora = hora;
         this.eurotaxi = eurotaxi;
-        this.idCliente = idCliente;
-        this.idConductor = idConductor;
+        this.conductor = conductor;
+        this.cliente = cliente;
         
     }
 
@@ -47,20 +47,19 @@ public class Servicio {
         this.idServicio = idServicio;
     }
 
-    public int getIdConductor() {
-        return idConductor;
+    public Conductor getConductor() {
+        return conductor;
     }
 
-    public void setIdConductor(int idConductor) {
-        this.idConductor = idConductor;
+    public void setConductor(Conductor conductor) {
+        this.conductor = conductor;
+    }
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public int getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(int idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
     
     public String getOrigen() {
@@ -137,6 +136,16 @@ public class Servicio {
 
     @Override
     public String toString() {
-        return "Servicio{" + "idServicio=" + idServicio + ", idConductor=" + idConductor + ", idCliente=" + idCliente + ", origen=" + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fecha=" + fecha + ", requisitos=" + requisitos + ", precio=" + precio + ", precio10=" + precio10 + ", eurotaxi=" + eurotaxi + ", hora=" + hora + '}';
+        return "Servicio{" +
+                "origen='" + origen + '\'' +
+                ", destino='" + destino + '\'' +
+                ", nPersona=" + nPersona +
+                ", fecha=" + fecha +
+                ", requisitos='" + requisitos + '\'' +
+                ", precio=" + precio +
+                ", precio10=" + precio10 +
+                ", eurotaxi=" + eurotaxi +
+                ", hora=" + hora +
+                '}';
     }
 }
