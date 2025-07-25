@@ -2,22 +2,55 @@ package com.centraltaxis.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+// Importamos las anotaciones necesarias para JPA
+import javax.persistence.*;
 
+// Indicamos que la clase Reserva es una entidad JPA
+// y que se corresponde con la tabla reservas de la base de datos
+@Entity
+@Table(name = "reserva")
 public class Reserva {
+    // ---------------------------- Atributos ----------------------------
+
+    // Indicamos que el atributo idReserva es la clave primaria de la entidad
+    // y que se generará automáticamente al insertar una nueva reserva
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_reserva")
     private int idReserva;
+    
+    // Claves foraneas para relacionar con otras entidades
+    // Relacionamos la entidad Reserva con la entidad Conductor indicando la cardinalidad y la clave foranea
+    @ManyToOne
+    @JoinColumn(name = "id_conductor", nullable = true)
     private Conductor conductor;
+    // Relacionamos la entidad Reserva con la entidad Cliente indicando la cardinalidad y la clave foranea
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+
+    // Atributos adicionales de la entidad Reserva
+    @Column(name = "origen", nullable = false, length = 255)
     private String origen;
+    @Column(name = "destino", nullable = false, length = 255)
     private String destino;
+    @Column(name = "n_persona", nullable = false)
     private int nPersona;
+    @Column(name = "fecha_reserva", nullable = false)
     private LocalDate fechaReserva;
+    @Column(name = "requisitos", nullable = true, length = 255)
     private String requisitos;
+    @Column(name = "precio", nullable = false)
     private double precio;
+    @Column(name = "precio_10", nullable = true)
     private double precio10;
+    @Column(name = "hora", nullable = false)
     private LocalTime hora;
+    @Column(name = "eurotaxi", nullable = false)
     private boolean eurotaxi;
 
-    // Constructor
+    // ---------------------------- Constructores ----------------------------
+
     public Reserva() {
     }
 
@@ -25,7 +58,11 @@ public class Reserva {
             String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
 
         this.cliente = cliente;
-        this.conductor = conductor;
+        if(conductor != null) {
+            this.conductor = conductor;
+        } else {
+            this.conductor = null; // Permite que el conductor sea nulo
+        }
         this.origen = origen;
         this.destino = destino;
         this.nPersona = nPersona;
@@ -38,7 +75,7 @@ public class Reserva {
     }
 
 
-    // Getters and Setters
+    // ---------------------------- Getters y Setters ----------------------------
     public int getIdReserva() {
         return idReserva;
     }
@@ -48,6 +85,9 @@ public class Reserva {
     }
 
     public Conductor getConductor() {
+        if (conductor == null) {
+            return null; // Permite que el conductor sea nulo
+        }
         return conductor;
     }
 
@@ -128,6 +168,24 @@ public class Reserva {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "idReserva=" + idReserva +
+                ", conductor=" + (conductor != null ? conductor.getIdConductor() : "Conductor no asignado") +
+                ", cliente=" + cliente.getIdCliente() +
+                ", origen='" + origen + '\'' +
+                ", destino='" + destino + '\'' +
+                ", nPersona=" + nPersona +
+                ", fechaReserva=" + fechaReserva +
+                ", requisitos='" + requisitos + '\'' +
+                ", precio=" + precio +
+                ", precio10=" + precio10 +
+                ", hora=" + hora +
+                ", eurotaxi=" + eurotaxi +
+                '}';
     }
 
    

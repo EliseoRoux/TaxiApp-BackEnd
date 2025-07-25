@@ -2,24 +2,55 @@ package com.centraltaxis.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+// Importamos las anotaciones necesarias para JPA
+import javax.persistence.*;
 
+// Indicamos que la clase Servicio es una entidad JPA
+// y que se corresponde con la tabla servicios de la base de datos
+@Entity
+@Table(name = "servicio")
 public class Servicio {
+    // ---------------------------- Atributos ----------------------------
 
-    //Atributos
+    // Indicamos que el atributo idServicio es la clave primaria de la entidad
+    // y que se generará automáticamente al insertar un nuevo servicio
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_servicio")
     private int idServicio;
+    
+    // Claves foraneas para relacionar con otras entidades
+    // Relacionamos la entidad Servicio con la entidad Conductor indicando la cardinalidad y la clave foranea
+    @ManyToOne
+    @JoinColumn(name = "id_conductor", nullable = true)
     private Conductor conductor;
+    
+    // Relacionamos la entidad Servicio con la entidad Cliente indicando la cardinalidad y la clave foranea
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+
+    // Atributos adicionales de la entidad Servicio
+    @Column(name = "origen", nullable = false, length = 255)
     private String origen;
+    @Column(name = "destino", nullable = false, length = 255)
     private String destino;
+    @Column(name = "n_persona", nullable = false)
     private int nPersona;
+    @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
+    @Column(name = "requisitos", nullable = true, length = 255)
     private String requisitos;
+    @Column(name = "precio", nullable = false)
     private double precio;
+    @Column(name = "precio_10", nullable = true)
     private double precio10;
+    @Column(name = "eurotaxi", nullable = false)
     private boolean eurotaxi;
+    @Column(name = "hora", nullable = false)
     private LocalTime hora;
 
-    // Constructor
+    // ---------------------------- Constructores ----------------------------
     public Servicio() {
     }
 
@@ -33,12 +64,16 @@ public class Servicio {
         this.precio10 = precio10;
         this.hora = hora;
         this.eurotaxi = eurotaxi;
-        this.conductor = conductor;
+        if(conductor != null) {
+            this.conductor = conductor;
+        } else {
+            this.conductor = null; // Permite que el conductor sea nulo
+        }
         this.cliente = cliente;
         
     }
 
-    // Getters and Setters
+    // ---------------------------- Getters y Setters ----------------------------
     public int getIdServicio() {
         return idServicio;
     }
@@ -137,7 +172,10 @@ public class Servicio {
     @Override
     public String toString() {
         return "Servicio{" +
-                "origen='" + origen + '\'' +
+                "idServicio=" + idServicio +
+                ", conductor=" + (conductor != null ? conductor.getIdConductor() : "Conductor no asignado") +
+                ", cliente=" + cliente.getIdCliente() +
+                ", origen='" + origen + '\'' +
                 ", destino='" + destino + '\'' +
                 ", nPersona=" + nPersona +
                 ", fecha=" + fecha +
