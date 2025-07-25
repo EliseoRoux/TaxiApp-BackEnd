@@ -4,9 +4,8 @@ package com.centraltaxis.service;
 import com.centraltaxis.model.Cliente;
 // Importamos el repositorio ClienteRepository para realizar operaciones CRUD
 import com.centraltaxis.repository.ClienteRepository;
-
+// Importamos las clases necesarias para manejar listas
 import java.util.List;
-
 // Importamos las anotaciones necesarias para el servicio
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +18,6 @@ public class ClienteService {
 
     // Metodo para guardar o actualizar un cliente
     public Cliente guardarCliente(Cliente cliente){
-        if (clienteRepository.findByTelefono(cliente.getTelefono()) != null) {
-            throw new RuntimeException("Ya existe un cliente con este teléfono");
-        }
         return clienteRepository.save(cliente);
     }
 
@@ -34,11 +30,8 @@ public class ClienteService {
 
     // Metodo para buscar un cliente por ID
     public Cliente buscarClientePorId(int id) {
-        if(clienteRepository.findById(id) != null) {
-            return clienteRepository.findById(id).get();
-        }  else {
-            throw new RuntimeException("Cliente no encontrado con ID: " + id);
-        }
+       return clienteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
     }
 
     // Metodo para listar todos los clientes
