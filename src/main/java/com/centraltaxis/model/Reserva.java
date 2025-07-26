@@ -18,13 +18,15 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reserva")
     private int idReserva;
-    
+
     // Claves foraneas para relacionar con otras entidades
-    // Relacionamos la entidad Reserva con la entidad Conductor indicando la cardinalidad y la clave foranea
+    // Relacionamos la entidad Reserva con la entidad Conductor indicando la
+    // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_conductor", nullable = true)
     private Conductor conductor;
-    // Relacionamos la entidad Reserva con la entidad Cliente indicando la cardinalidad y la clave foranea
+    // Relacionamos la entidad Reserva con la entidad Cliente indicando la
+    // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
@@ -54,11 +56,12 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(Cliente cliente, Conductor conductor, String origen, String destino, int nPersona, LocalDate fechaReserva,
+    public Reserva(Cliente cliente, Conductor conductor, String origen, String destino, int nPersona,
+            LocalDate fechaReserva,
             String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
 
         this.cliente = cliente;
-        if(conductor != null) {
+        if (conductor != null) {
             this.conductor = conductor;
         } else {
             this.conductor = null; // Permite que el conductor sea nulo
@@ -73,7 +76,6 @@ public class Reserva {
         this.hora = hora;
         this.eurotaxi = eurotaxi;
     }
-
 
     // ---------------------------- Getters y Setters ----------------------------
     public int getIdReserva() {
@@ -98,6 +100,11 @@ public class Reserva {
     public Cliente getCliente() {
         return cliente;
     }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public String getOrigen() {
         return origen;
     }
@@ -114,11 +121,11 @@ public class Reserva {
         this.destino = destino;
     }
 
-    public int getnPersona() {
+    public int getNPersona() {
         return nPersona;
     }
 
-    public void setnPersona(int nPersona) {
+    public void setNPersona(int nPersona) {
         this.nPersona = nPersona;
     }
 
@@ -154,7 +161,7 @@ public class Reserva {
         this.precio10 = precio10;
     }
 
-    public boolean getEurotaxi() {
+    public boolean isEurotaxi() {
         return eurotaxi;
     }
 
@@ -187,7 +194,5 @@ public class Reserva {
                 ", eurotaxi=" + eurotaxi +
                 '}';
     }
-
-   
 
 }

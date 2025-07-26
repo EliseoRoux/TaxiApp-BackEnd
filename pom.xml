@@ -18,7 +18,7 @@
     <description>Proyecto para la gestión de una central de taxis.</description>
 
     <properties>
-        <java.version>11</java.version> <!-- Actualizado de 1.8 a 11 -->
+        <java.version>17</java.version> <!-- Actualizado de 1.8 a 11 -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>

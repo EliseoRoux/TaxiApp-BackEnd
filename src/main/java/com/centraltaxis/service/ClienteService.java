@@ -17,28 +17,26 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
 
     // Metodo para guardar o actualizar un cliente
-    public Cliente guardarCliente(Cliente cliente){
+    public Cliente guardarCliente(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
-    // Metodo para borrar un cliente por ID 
+    // Metodo para borrar un cliente por ID
     public void eliminarClientePorId(int id) {
         Cliente cliente = clienteRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
         clienteRepository.delete(cliente);
     }
 
     // Metodo para buscar un cliente por ID
     public Cliente buscarClientePorId(int id) {
-       return clienteRepository.findById(id)
+        return clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
     }
 
     // Metodo para listar todos los clientes
-    public List<Cliente> listarClientes(){
+    public List<Cliente> listarClientes() {
         return clienteRepository.findAll();
     }
-
-
 
 }

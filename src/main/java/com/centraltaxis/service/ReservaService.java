@@ -44,8 +44,8 @@ public class ReservaService {
         return reservaRepository.count();
     }
 
-    // Método para buscar reservas por cliente
-    public List<Reserva> buscarReservasPorCliente(int idCliente) {
-        return reservaRepository.findByClienteId(idCliente);
+    // Método para buscar reservas por conductor
+    public List<Reserva> buscarReservasPorConductor(int idConductor) {
+        return reservaRepository.findByClienteId(idConductor);
     }
 }

@@ -5,6 +5,7 @@ import com.centraltaxis.model.Conductor;
 // Importamos el repositorio ConductorRepository para realizar operaciones CRUD
 import com.centraltaxis.repository.ConductorRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 // Importamos las anotaciones necesarias para el servicio
@@ -23,16 +24,20 @@ public class ConductorService {
     }
 
     // Metodo para borrar un conductor por ID
-    public void eliminarConductorPorId(int id){
+    public void eliminarConductorPorId(int id) {
         Conductor conductor = conductorRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
         conductorRepository.delete(conductor);
     }
 
-    // Metodo para buscar un conductor por ID
-    public Optional<Conductor> buscarConductorPorId(int id){
-        return conductorRepository.findById(id);
+    // Metodo para listar todos los conductores
+    public List<Conductor> listarConductores() {
+        return conductorRepository.findAll();
     }
 
+    // Metodo para buscar un conductor por ID
+    public Optional<Conductor> buscarConductorPorId(int id) {
+        return conductorRepository.findById(id);
+    }
 
 }

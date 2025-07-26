@@ -20,13 +20,13 @@ public class CentralTaxisApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         // Prueba simple de conexión
         String dbName = (String) entityManager
-            .createNativeQuery("SELECT current_database()")
-            .getSingleResult();
-        
+                .createNativeQuery("SELECT current_database()")
+                .getSingleResult();
+
         String dbUser = (String) entityManager
-            .createNativeQuery("SELECT current_user")
-            .getSingleResult();
-        
+                .createNativeQuery("SELECT current_user")
+                .getSingleResult();
+
         System.out.println("✅ Conexión exitosa a Supabase!");
         System.out.println("📊 Base de datos: " + dbName);
         System.out.println("👤 Usuario: " + dbUser);

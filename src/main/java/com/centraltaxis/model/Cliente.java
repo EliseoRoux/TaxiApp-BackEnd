@@ -34,25 +34,31 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    // ---------------------------- Getters y Setters ---------------------------- 
+    // ---------------------------- Getters y Setters ----------------------------
     public int getIdCliente() {
         return idCliente;
     }
+
     public String getNombre() {
         return nombre;
     }
+
     public String getTelefono() {
         return telefono;
     }
+
     public void setId(int idCliente) {
         this.idCliente = idCliente;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
     @Override
     public String toString() {
         return "Cliente{" +

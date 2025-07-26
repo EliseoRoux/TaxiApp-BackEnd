@@ -26,9 +26,9 @@ public class Conductor {
     private double deuda;
     @Column(name = "dinero_generado", nullable = true)
     private double dineroGenerado;
-    
+
     // Constructor
-    public Conductor(){
+    public Conductor() {
 
     }
 
@@ -37,6 +37,7 @@ public class Conductor {
         this.nombre = nombre;
         this.telefono = telefono;
     }
+
     // Getters
     public int getIdConductor() {
         return idConductor;
@@ -87,7 +88,7 @@ public class Conductor {
                 ", telefono='" + telefono + '\'' +
                 ", deuda=" + deuda +
                 ", dineroGenerado=" + dineroGenerado +
-                '}';    
+                '}';
     }
 
 }

@@ -31,15 +31,15 @@ public class ServicioService {
     }
 
     // Método para eliminar un servicio por ID
-    public void eliminarServicioPorId(int id){
+    public void eliminarServicioPorId(int id) {
         // Comprobamos si el servicio existe antes de eliminarlo
         Servicio servicio = servicioRepository.findById(id)
-        .orElseThrow(() -> new RuntimeException("Servicio no encontrado con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Servicio no encontrado con ID: " + id));
         servicioRepository.delete(servicio);
     }
 
     // Método para Listar todos los servicios
-    public List<Servicio> listarServicios(){
+    public List<Servicio> listarServicios() {
         return servicioRepository.findAll();
     }
 

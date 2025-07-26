@@ -18,14 +18,16 @@ public class Servicio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_servicio")
     private int idServicio;
-    
+
     // Claves foraneas para relacionar con otras entidades
-    // Relacionamos la entidad Servicio con la entidad Conductor indicando la cardinalidad y la clave foranea
+    // Relacionamos la entidad Servicio con la entidad Conductor indicando la
+    // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_conductor", nullable = true)
     private Conductor conductor;
-    
-    // Relacionamos la entidad Servicio con la entidad Cliente indicando la cardinalidad y la clave foranea
+
+    // Relacionamos la entidad Servicio con la entidad Cliente indicando la
+    // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
@@ -54,7 +56,8 @@ public class Servicio {
     public Servicio() {
     }
 
-    public Servicio(Conductor conductor, Cliente cliente, String origen, String destino, int nPersona, LocalDate fecha, String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
+    public Servicio(Conductor conductor, Cliente cliente, String origen, String destino, int nPersona, LocalDate fecha,
+            String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
         this.origen = origen;
         this.destino = destino;
         this.nPersona = nPersona;
@@ -64,13 +67,13 @@ public class Servicio {
         this.precio10 = precio10;
         this.hora = hora;
         this.eurotaxi = eurotaxi;
-        if(conductor != null) {
+        if (conductor != null) {
             this.conductor = conductor;
         } else {
             this.conductor = null; // Permite que el conductor sea nulo
         }
         this.cliente = cliente;
-        
+
     }
 
     // ---------------------------- Getters y Setters ----------------------------
@@ -89,6 +92,7 @@ public class Servicio {
     public void setConductor(Conductor conductor) {
         this.conductor = conductor;
     }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -96,7 +100,7 @@ public class Servicio {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    
+
     public String getOrigen() {
         return origen;
     }
@@ -113,11 +117,11 @@ public class Servicio {
         this.destino = destino;
     }
 
-    public int getnPersona() {
+    public int getNPersona() {
         return nPersona;
     }
 
-    public void setnPersona(int nPersona) {
+    public void setNPersona(int nPersona) {
         this.nPersona = nPersona;
     }
 
@@ -153,7 +157,7 @@ public class Servicio {
         this.precio10 = precio10;
     }
 
-    public boolean getEurotaxi() {
+    public boolean isEurotaxi() {
         return eurotaxi;
     }
 

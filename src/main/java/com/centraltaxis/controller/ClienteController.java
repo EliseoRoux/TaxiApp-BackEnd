@@ -21,31 +21,32 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    // Aquí se pueden definir los endpoints para manejar las solicitudes HTTP relacionadas con Cliente
+    // Aquí se pueden definir los endpoints para manejar las solicitudes HTTP
+    // relacionadas con Cliente
     // CRUD
-    
-        // ------------------------------ CREATE ------------------------------ //
+
+    // ------------------------------ CREATE ------------------------------ //
 
     // Crear un nuevo cliente
     @PostMapping
-    public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente){
+    public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
         // Llamamos al servicio para guardar el cliente
         Cliente nuevoCliente = clienteService.guardarCliente(cliente);
         // Devolvemos el cliente creado con un código de estado 201 (Creado)
         return ResponseEntity.status(201).body(nuevoCliente);
     }
 
-        // ------------------------------ READ ------------------------------ //
+    // ------------------------------ READ ------------------------------ //
 
     // Obtenemos todos los clientes
     @GetMapping
     public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() {
         // Llamamos al servicio para listar todos los clientes
         List<Cliente> clientes = clienteService.listarClientes();
-        if(clientes.isEmpty()) {
+        if (clientes.isEmpty()) {
             // Si no hay clientes, devolvemos un código de estado 204 (No Content)
             return ResponseEntity.noContent().build();
-        } else { 
+        } else {
             // Si hay clientes, los devolvemos con un código de estado 200 (OK)
             return ResponseEntity.ok(clientes);
         }
@@ -53,27 +54,28 @@ public class ClienteController {
 
     // Obtener un cliente por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable int id){
+    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable int id) {
         // Intentamos buscar el cliente por ID
         // Si no se encuentra, se lanzará una excepción que podemos manejar
-        try{
+        try {
             Cliente cliente = clienteService.buscarClientePorId(id);
             return ResponseEntity.ok(cliente);
-        // Si ocurre una excepción, la manejamos aquí
-        }catch(RuntimeException e) {
-            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de estado HTTP
+            // Si ocurre una excepción, la manejamos aquí
+        } catch (RuntimeException e) {
+            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de
+            // estado HTTP
             return ResponseEntity.notFound().build();
         }
     }
 
-        // ------------------------------ UPDATE ------------------------------ //
+    // ------------------------------ UPDATE ------------------------------ //
 
     // Actualizar un cliente existente
     @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable int id, @RequestBody Cliente clienteActualizado){
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable int id, @RequestBody Cliente clienteActualizado) {
         // Intentamos buscar el cliente por ID para actualizarlo
         // Si no se encuentra, se lanzará una excepción que podemos manejar
-        try{
+        try {
             // Buscamos el cliente por el ID
             Cliente clienteExistente = clienteService.buscarClientePorId(id);
             // Actualizamos los datos del cliente existente
@@ -84,17 +86,17 @@ public class ClienteController {
             // Devolvemos el cliente actualizado con un código de estado 200 (OK)
             return ResponseEntity.ok(cliente);
         } catch (RuntimeException e) {
-            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de estado HTTP
+            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de
+            // estado HTTP
             return ResponseEntity.notFound().build();
         }
     }
-    
-        
-        // ------------------------------ DELETE ------------------------------ //
-    
-        // Eliminar un cliente por ID
+
+    // ------------------------------ DELETE ------------------------------ //
+
+    // Eliminar un cliente por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable int id){
+    public ResponseEntity<Void> eliminarCliente(@PathVariable int id) {
         // Intentamos eliminar el cliente por ID
         // Si no se encuentra, se lanzará una excepción que podemos manejar
         try {
@@ -102,10 +104,10 @@ public class ClienteController {
             // Devolvemos un código de estado 204 (No Content) si la eliminación fue exitosa
             return ResponseEntity.noContent().build();
         } catch (RuntimeException e) {
-            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de estado HTTP
+            // Manejo de excepciones, podríamos devolver un mensaje de error o un código de
+            // estado HTTP
             return ResponseEntity.notFound().build();
         }
     }
 
-    
 }
