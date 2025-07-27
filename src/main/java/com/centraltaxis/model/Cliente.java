@@ -2,6 +2,8 @@ package com.centraltaxis.model;
 
 // Importamos las anotaciones necesarias para JPA
 import javax.persistence.*;
+// Importamos las anotaciones necesarias para la validación
+import javax.validation.constraints.*;
 
 // Indicamos que la clase Cliente es una entidad JPA
 // y que se corresponde con la tabla clientes de la base de datos
@@ -19,9 +21,15 @@ public class Cliente {
 
     // Atributos adicionales de la entidad Cliente
     // Estos atributos se corresponden con las columnas de la tabla clientes
-    @Column(name = "nombre", nullable = true, length = 255)
+    // Añadimos las anotaciones JPA y de validación necesarias
+    @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
+    @NotBlank(message = "El nombre es obligatorio")
+    @Column(nullable = false, length = 100)
     private String nombre;
-    @Column(name = "telefono", nullable = true, length = 255)
+
+    @Pattern(regexp = "^(\\+?[0-9]{1,3}[-.\\s]?)?([0-9]{2,4}[-.\\s]?){2,4}[0-9]{2,4}$", message = "Teléfono inválido. Ejemplos válidos: +34 666-777-888, 912 345 678, 622.33.44.55")
+    @NotBlank(message = "El telefono es obligatorio")
+    @Column(nullable = false, length = 15)
     private String telefono;
 
     // ---------------------------- Constructores ----------------------------

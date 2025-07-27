@@ -6,7 +6,6 @@ import com.centraltaxis.model.Conductor;
 import com.centraltaxis.repository.ConductorRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 // Importamos las anotaciones necesarias para el servicio
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +35,10 @@ public class ConductorService {
     }
 
     // Metodo para buscar un conductor por ID
-    public Optional<Conductor> buscarConductorPorId(int id) {
-        return conductorRepository.findById(id);
+    public Conductor buscarConductorPorId(int id) {
+        Conductor conductor = conductorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
+        return conductor;
     }
 
 }

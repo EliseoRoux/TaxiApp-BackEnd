@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 // Importamos las anotaciones necesarias para JPA
 import javax.persistence.*;
+// Importamos las anotaciones necesarias para la validación
+import javax.validation.constraints.*;
 
 // Indicamos que la clase Reserva es una entidad JPA
 // y que se corresponde con la tabla reservas de la base de datos
@@ -27,28 +29,49 @@ public class Reserva {
     private Conductor conductor;
     // Relacionamos la entidad Reserva con la entidad Cliente indicando la
     // cardinalidad y la clave foranea
+    @NotBlank(message = "El cliente no puede estar en blanco")
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Reserva
-    @Column(name = "origen", nullable = false, length = 255)
+    @Size(max = 255, message = "El origen no puede exceder los 255 caracteres")
+    @NotNull(message = "El origen es obligatorio")
+    @Column(nullable = false, length = 255)
     private String origen;
-    @Column(name = "destino", nullable = false, length = 255)
+
+    @Size(max = 255, message = "El destino no puede exceder los 255 caracteres")
+    @NotNull(message = "El destino es obligatorio")
+    @Column(nullable = false, length = 255)
     private String destino;
+
+    @Min(value = 1, message = "El número de personas debe ser al menos 1")
+    @NotBlank(message = "El número de personas no puede estar en blanco")
     @Column(name = "n_persona", nullable = false)
     private int nPersona;
+
+    @NotBlank(message = "La fecha de reserva no puede estar en blanco")
     @Column(name = "fecha_reserva", nullable = false)
     private LocalDate fechaReserva;
-    @Column(name = "requisitos", nullable = true, length = 255)
+
+    @Size(max = 255, message = "Los requisitos no pueden exceder los 255 caracteres")
+    @Column(nullable = true, length = 255)
     private String requisitos;
-    @Column(name = "precio", nullable = false)
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido")
+    @Column(nullable = true)
     private double precio;
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido")
     @Column(name = "precio_10", nullable = true)
     private double precio10;
-    @Column(name = "hora", nullable = false)
+
+    @NotBlank(message = "La hora no puede estar en blanco")
+    @Column(nullable = false)
     private LocalTime hora;
-    @Column(name = "eurotaxi", nullable = false)
+
+    @NotNull(message = "Indicar si es eurotaxi es obligatorio")
+    @Column(nullable = false)
     private boolean eurotaxi;
 
     // ---------------------------- Constructores ----------------------------

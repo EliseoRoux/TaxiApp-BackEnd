@@ -4,7 +4,6 @@ import com.centraltaxis.model.Servicio;
 import com.centraltaxis.repository.ServicioRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +20,14 @@ public class ServicioService {
     }
 
     // Método para buscar un servicio por ID
-    public Optional<Servicio> buscarServicioPorId(int id) {
-        return servicioRepository.findById(id);
+    public Servicio buscarServicioPorId(int id) {
+        return servicioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Servicio no encontrado con ID: " + id));
     }
 
     // Metodo para buscar todos los servicios por conductor
     public List<Servicio> buscarServiciosPorConductor(int idConductor) {
-        return servicioRepository.findByConductorId(idConductor);
+        return servicioRepository.findByConductor_IdConductor(idConductor);
     }
 
     // Método para eliminar un servicio por ID

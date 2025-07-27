@@ -2,6 +2,8 @@ package com.centraltaxis.model;
 
 // Importamos las anotaciones necesarias para JPA
 import javax.persistence.*;
+// Importamos las anotaciones necesarias para la validación
+import javax.validation.constraints.*;
 
 // Indicamos que la clase Conductor es una entidad JPA
 // y que se corresponde con la tabla conductor de la base de datos
@@ -16,14 +18,23 @@ public class Conductor {
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     @Column(name = "id_conductor")
     private int idConductor;
+    // Añadimos las anotaciones JPA y de validación necesarias
     // Atributos adicionales de la entidad Conductor
     // Estos atributos se corresponden con las columnas de la tabla conductor
-    @Column(name = "nombre", nullable = true, length = 255)
+    @Size(max = 100, message = "El nombre no puede exceder los 100 caracteres")
+    @NotBlank(message = "El nombre no puede estar en blanco")
+    @Column(nullable = false, length = 100)
     private String nombre;
-    @Column(name = "telefono", nullable = true, length = 255)
+
+    @Pattern(regexp = "^(\\+?[0-9]{1,3}[-.\\s]?)?([0-9]{2,4}[-.\\s]?){2,4}[0-9]{2,4}$", message = "Teléfono inválido. Ejemplos válidos: +34 666-777-888, 912 345 678, 622.33.44.55")
+    @Column(name = "telefono", nullable = true, length = 15)
     private String telefono;
-    @Column(name = "deuda", nullable = true)
+
+    @Digits(integer = 10, fraction = 2, message = "La deuda debe ser un número válido")
+    @Column(nullable = true)
     private double deuda;
+
+    @Digits(integer = 10, fraction = 2, message = "El dinero generado debe ser un número válido")
     @Column(name = "dinero_generado", nullable = true)
     private double dineroGenerado;
 

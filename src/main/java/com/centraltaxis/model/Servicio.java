@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 // Importamos las anotaciones necesarias para JPA
 import javax.persistence.*;
+// Importamos las anotaciones necesarias para la validación
+import javax.validation.constraints.*;
 
 // Indicamos que la clase Servicio es una entidad JPA
 // y que se corresponde con la tabla servicios de la base de datos
@@ -33,23 +35,43 @@ public class Servicio {
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Servicio
-    @Column(name = "origen", nullable = false, length = 255)
+    @Size(max = 255, message = "El origen no puede exceder los 255 caracteres")
+    @NotNull(message = "El origen es obligatorio")
+    @Column(nullable = false, length = 255)
     private String origen;
-    @Column(name = "destino", nullable = false, length = 255)
+
+    @Size(max = 255, message = "El destino no puede exceder los 255 caracteres")
+    @NotNull(message = "El destino es obligatorio")
+    @Column(nullable = false, length = 255)
     private String destino;
+
+    @Min(value = 1, message = "El número de personas debe ser al menos 1")
+    @NotNull(message = "El número de personas es obligatorio")
     @Column(name = "n_persona", nullable = false)
     private int nPersona;
-    @Column(name = "fecha", nullable = false)
+
+    @NotBlank(message = "La fecha no puede estar en blanco")
+    @Column(nullable = false)
     private LocalDate fecha;
-    @Column(name = "requisitos", nullable = true, length = 255)
+
+    @Size(max = 255, message = "Los requisitos no pueden exceder los 255 caracteres")
+    @Column(nullable = true, length = 255)
     private String requisitos;
-    @Column(name = "precio", nullable = false)
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido con hasta dos decimales")
+    @Column(nullable = true)
     private double precio;
+
+    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido con hasta dos decimales")
     @Column(name = "precio_10", nullable = true)
     private double precio10;
-    @Column(name = "eurotaxi", nullable = false)
+
+    @NotNull(message = "Indicar si es eurotaxi es obligatorio")
+    @Column(nullable = false)
     private boolean eurotaxi;
-    @Column(name = "hora", nullable = false)
+
+    @NotBlank(message = "La hora no puede estar en blanco")
+    @Column(nullable = false)
     private LocalTime hora;
 
     // ---------------------------- Constructores ----------------------------

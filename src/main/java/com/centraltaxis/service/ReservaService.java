@@ -46,6 +46,6 @@ public class ReservaService {
 
     // Método para buscar reservas por conductor
     public List<Reserva> buscarReservasPorConductor(int idConductor) {
-        return reservaRepository.findByClienteId(idConductor);
+        return reservaRepository.findByConductor_IdConductor(idConductor);
     }
 }
