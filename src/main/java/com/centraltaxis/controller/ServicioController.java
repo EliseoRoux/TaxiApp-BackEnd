@@ -53,7 +53,6 @@ public class ServicioController {
         List<Servicio> servicios = servicioService.listarServicios();
         // Si hay servicios, los devolvemos con un código de estado 200 (OK)
         return ResponseEntity.ok(servicios);
-
     }
 
     // Obtener un servicio por ID
@@ -111,12 +110,12 @@ public class ServicioController {
             @PathVariable @Min(1) int id,
             @RequestBody Map<String, Object> updates) { // Recibe un mapa dinámico de campos a actualizar
 
-        // 1. Busca el servicio existente
+        // Busca el servicio existente
         Servicio servicioExistente = servicioService.buscarServicioPorId(id);
 
-        // 2. Actualización segura del conductor con pattern matching
+        // Actualización segura del conductor con pattern matching
         if (updates.get("conductor") instanceof Map<?, ?> rawConductorMap) {
-            Map<String, Object> conductorMap = convertToTypedMap(rawConductorMap); // 🔥 Conversión segura
+            Map<String, Object> conductorMap = convertToTypedMap(rawConductorMap); // Conversión segura
             if (conductorMap.get("idConductor") instanceof Integer idConductor) {
                 Conductor conductor = conductorRepository.findById(idConductor)
                         .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
@@ -128,7 +127,7 @@ public class ServicioController {
             servicioExistente.setConductor(null); // Caso explícito para null
         }
 
-        // 3. Repetir el patrón para otros campos que necesitemos
+        // Repetir el patrón para otros campos que necesitemos
         if (updates.get("origen") instanceof String nuevoOrigen) {
             servicioExistente.setOrigen(nuevoOrigen);
         }
@@ -137,7 +136,7 @@ public class ServicioController {
         if (updates.get("nPersona") instanceof Integer nPersona) {
             servicioExistente.setNPersona(nPersona);
         } 
-        // 4. Guarda y devuelve el servicio actualizado
+        // Guarda y devuelve el servicio actualizado
         Servicio servicioActualizado = servicioService.guardarServicio(servicioExistente);
         return ResponseEntity.ok(servicioActualizado);
     }

@@ -26,8 +26,8 @@ public class Conductor {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Pattern(regexp = "^(\\+?[0-9]{1,3}[-.\\s]?)?([0-9]{2,4}[-.\\s]?){2,4}[0-9]{2,4}$", message = "Teléfono inválido. Ejemplos válidos: +34 666-777-888, 912 345 678, 622.33.44.55")
-    @Column(name = "telefono", nullable = true, length = 15)
+    @Pattern(regexp = "^(\\+?[0-9\\s\\-\\.]{7,15})$", message = "Teléfono inválido. Use +prefix, números y guiones/espacios")
+    @Column(nullable = true, length = 15)
     private String telefono;
 
     @Digits(integer = 10, fraction = 2, message = "La deuda debe ser un número válido")

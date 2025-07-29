@@ -18,17 +18,14 @@ public class CentralTaxisApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Prueba simple de conexión
-        String dbName = (String) entityManager
-                .createNativeQuery("SELECT current_database()")
+        // Verificación de conexión y RLS
+        Boolean rlsEnabled = (Boolean) entityManager
+                .createNativeQuery("SELECT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'cliente')")
                 .getSingleResult();
-
-        String dbUser = (String) entityManager
-                .createNativeQuery("SELECT current_user")
-                .getSingleResult();
-
-        System.out.println("✅ Conexión exitosa a Supabase!");
-        System.out.println("📊 Base de datos: " + dbName);
-        System.out.println("👤 Usuario: " + dbUser);
+        
+        System.out.println("\n=== Configuración de Supabase ===");
+        System.out.println(" Conexión exitosa a Supabase");
+        System.out.println(" RLS habilitado: " + (rlsEnabled ? "SÍ" : "NO"));
+        System.out.println("Modo desarrollo: políticas permisivas activas\n");
     }
 }

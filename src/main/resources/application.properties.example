@@ -1,4 +1,22 @@
 # application.properties.example
-spring.datasource.url=jdbc:postgresql://<HOST>:<PORT>/<DATABASE>
-spring.datasource.username=<USERNAME>
-spring.datasource.password=<PASSWORD>
+
+# Configuración de la base de datos PostgreSQL
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+# Configuración específica para PostgreSQL
+spring.datasource.driver-class-name=
+spring.jpa.database-platform=
+spring.jpa.hibernate.ddl-auto=
+
+# Configuración de conexión segura (SSL)
+spring.datasource.hikari.ssl-mode=
+spring.datasource.hikari.ssl=
+spring.datasource.hikari.sslrootcert=
+
+# Configuración del pool de conexiones
+spring.datasource.hikari.connection-timeout=
+spring.datasource.hikari.maximum-pool-size=
+spring.datasource.hikari.idle-timeout=
+spring.datasource.hikari.max-lifetime=
