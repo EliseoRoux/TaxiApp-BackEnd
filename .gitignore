@@ -1,0 +1,2 @@
+# Evitar subir datos sensibles
+src/main/resources/application.properties

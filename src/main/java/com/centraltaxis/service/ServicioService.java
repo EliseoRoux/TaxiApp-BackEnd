@@ -1,8 +1,11 @@
 package com.centraltaxis.service;
 
+import com.centraltaxis.model.Cliente;
 import com.centraltaxis.model.Servicio;
+import com.centraltaxis.model.Conductor;
+import com.centraltaxis.repository.ConductorRepository;
 import com.centraltaxis.repository.ServicioRepository;
-
+import com.centraltaxis.repository.ClienteRepository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +16,30 @@ public class ServicioService {
 
     @Autowired
     private ServicioRepository servicioRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private ConductorRepository conductorRepository;
 
     // Método para guardar o actualizar un servicio
     public Servicio guardarServicio(Servicio servicio) {
+        // Valida y asigna el cliente
+        Cliente cliente = clienteRepository.findById(servicio.getCliente().getIdCliente())
+            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        servicio.setCliente(cliente);
+        // Si el conductor es nulo, lo dejamos como null
+        if (servicio.getConductor() != null) {
+            // Si el conductor no es nulo, buscamos el conductor por ID
+            // y lo asignamos al servicio
+            Conductor conductor = conductorRepository.findById(servicio.getConductor().getIdConductor())
+                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+            servicio.setConductor(conductor);
+        } else {
+            servicio.setConductor(null);
+        }
         return servicioRepository.save(servicio);
     }
+    
 
     // Método para buscar un servicio por ID
     public Servicio buscarServicioPorId(int id) {

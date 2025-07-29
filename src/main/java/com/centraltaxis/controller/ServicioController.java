@@ -1,10 +1,13 @@
 package com.centraltaxis.controller;
 
+import com.centraltaxis.model.Conductor;
+import com.centraltaxis.repository.ConductorRepository;
 // Importamos las clases necesarias para el controlador
 import com.centraltaxis.model.Servicio;
 import com.centraltaxis.service.ServicioService;
 // Importamos las clases necesarias para manejar listas
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.*;
 import javax.validation.constraints.Min;
@@ -25,6 +28,8 @@ public class ServicioController {
 
     @Autowired
     private ServicioService servicioService;
+    @Autowired
+    private ConductorRepository conductorRepository;
 
     // CRUD
     // ------------------------------ CREATE ------------------------------ //
@@ -97,6 +102,43 @@ public class ServicioController {
         Servicio servicioGuardado = servicioService.guardarServicio(servicioExistente);
         return ResponseEntity.ok(servicioGuardado); // Devolvemos el servicio actualizado
 
+    }
+
+    // Actualizar parcialmente un servicio (solo algunos campos)
+    @PatchMapping("/{id}")
+    public ResponseEntity<Servicio> actualizarServicioParcialmente(
+            @PathVariable @Min(1) int id,
+            @RequestBody Map<String, Object> updates) { // Recibe un mapa dinámico de campos a actualizar
+
+        // 1. Busca el servicio existente
+        Servicio servicioExistente = servicioService.buscarServicioPorId(id);
+
+        // 2. Actualiza solo los campos enviados en el JSON
+        if (updates.containsKey("conductor")) {
+            Map<String, Object> conductorMap = (Map<String, Object>) updates.get("conductor");
+            if (conductorMap != null && conductorMap.containsKey("idConductor")) {
+                // 2.1. Busca el conductor en la BD o lanza excepción si no existe
+                Integer idConductor = (Integer) conductorMap.get("idConductor");
+                Conductor conductor = conductorRepository.findById(idConductor)
+                        .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + idConductor));
+                servicioExistente.setConductor(conductor);
+            } else {
+                // 2.2. Si el conductor es null, lo desasigna
+                servicioExistente.setConductor(null);
+            }
+        }
+
+        // 3. Repite el patrón para otros campos (ej: origen, precio, etc.)
+        if (updates.containsKey("origen")) {
+            servicioExistente.setOrigen((String) updates.get("origen"));
+        }
+        // ... (añadiremos más campos según necesitemos, para pruebas de momento asi, HAY QUE ACTUALIZAR)
+        if (updates.containsKey("nPersona")){
+            servicioExistente.setNPersona((int)updates.get("nPersona"));
+        }
+        // 4. Guarda y devuelve el servicio actualizado
+        Servicio servicioActualizado = servicioService.guardarServicio(servicioExistente);
+        return ResponseEntity.ok(servicioActualizado);
     }
 
     // ------------------------------- DELETE ------------------------------ //
