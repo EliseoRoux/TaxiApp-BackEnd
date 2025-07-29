@@ -1,0 +1,4 @@
+# application.properties.example
+spring.datasource.url=jdbc:postgresql://<HOST>:<PORT>/<DATABASE>
+spring.datasource.username=<USERNAME>
+spring.datasource.password=<PASSWORD>
