@@ -8,6 +8,7 @@ import com.centraltaxis.service.ServicioService;
 // Importamos las clases necesarias para manejar listas
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.*;
 import javax.validation.constraints.Min;
@@ -113,32 +114,40 @@ public class ServicioController {
         // 1. Busca el servicio existente
         Servicio servicioExistente = servicioService.buscarServicioPorId(id);
 
-        // 2. Actualiza solo los campos enviados en el JSON
-        if (updates.containsKey("conductor")) {
-            Map<String, Object> conductorMap = (Map<String, Object>) updates.get("conductor");
-            if (conductorMap != null && conductorMap.containsKey("idConductor")) {
-                // 2.1. Busca el conductor en la BD o lanza excepción si no existe
-                Integer idConductor = (Integer) conductorMap.get("idConductor");
+        // 2. Actualización segura del conductor con pattern matching
+        if (updates.get("conductor") instanceof Map<?, ?> rawConductorMap) {
+            Map<String, Object> conductorMap = convertToTypedMap(rawConductorMap); // 🔥 Conversión segura
+            if (conductorMap.get("idConductor") instanceof Integer idConductor) {
                 Conductor conductor = conductorRepository.findById(idConductor)
-                        .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + idConductor));
+                        .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
                 servicioExistente.setConductor(conductor);
             } else {
-                // 2.2. Si el conductor es null, lo desasigna
-                servicioExistente.setConductor(null);
+                servicioExistente.setConductor(null); // Si idConductor no es Integer o es null
             }
+        } else if (updates.get("conductor") == null) {
+            servicioExistente.setConductor(null); // Caso explícito para null
         }
 
-        // 3. Repite el patrón para otros campos (ej: origen, precio, etc.)
-        if (updates.containsKey("origen")) {
-            servicioExistente.setOrigen((String) updates.get("origen"));
+        // 3. Repetir el patrón para otros campos que necesitemos
+        if (updates.get("origen") instanceof String nuevoOrigen) {
+            servicioExistente.setOrigen(nuevoOrigen);
         }
-        // ... (añadiremos más campos según necesitemos, para pruebas de momento asi, HAY QUE ACTUALIZAR)
-        if (updates.containsKey("nPersona")){
-            servicioExistente.setNPersona((int)updates.get("nPersona"));
-        }
+        // ... (añadiremos más campos según necesitemos, para pruebas de momento asi,
+        // HAY QUE ACTUALIZAR)
+        if (updates.get("nPersona") instanceof Integer nPersona) {
+            servicioExistente.setNPersona(nPersona);
+        } 
         // 4. Guarda y devuelve el servicio actualizado
         Servicio servicioActualizado = servicioService.guardarServicio(servicioExistente);
         return ResponseEntity.ok(servicioActualizado);
+    }
+
+    // Método auxiliar para convertir Map<?, ?> a Map<String, Object>
+    private Map<String, Object> convertToTypedMap(Map<?, ?> rawMap) {
+        return rawMap.entrySet().stream()
+                .collect(Collectors.toMap(
+                        e -> e.getKey().toString(),
+                        Map.Entry::getValue));
     }
 
     // ------------------------------- DELETE ------------------------------ //
