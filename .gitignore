@@ -1,2 +1,48 @@
-# Evitar subir datos sensibles
+# Datos sensibles
 src/main/resources/application.properties
+
+# Archivos generados por IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+*.swp
+
+# Archivos de compilación y ejecución
+target/
+!target/**/*.jar  # Excepto los jars finales
+build/
+out/
+*.class
+*.log
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de Maven
+dependency-reduced-pom.xml
+mvnw
+mvnw.cmd
+.mvn/
+maven-*.jar
+
+# Archivos temporales
+*.tmp
+*.bak
+*.orig
+
+# Archivos de base de datos local 
+*.db
+*.lobs
+*.script
+
+# Archivos de certificados SSL 
+*.pem
+*.cer
+*.jks
