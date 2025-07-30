@@ -7,6 +7,8 @@ import javax.persistence.*;
 // Importamos las anotaciones necesarias para la validación
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // Indicamos que la clase Reserva es una entidad JPA
 // y que se corresponde con la tabla reservas de la base de datos
 @Entity
@@ -29,9 +31,8 @@ public class Reserva {
     private Conductor conductor;
     // Relacionamos la entidad Reserva con la entidad Cliente indicando la
     // cardinalidad y la clave foranea
-    @NotBlank(message = "El cliente no puede estar en blanco")
     @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = true)
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Reserva
@@ -45,12 +46,10 @@ public class Reserva {
     @Column(nullable = false, length = 255)
     private String destino;
 
-    @Min(value = 1, message = "El número de personas debe ser al menos 1")
-    @NotBlank(message = "El número de personas no puede estar en blanco")
     @Column(name = "n_persona", nullable = false)
     private int nPersona;
 
-    @NotBlank(message = "La fecha de reserva no puede estar en blanco")
+    @NotNull(message = "La fecha es obligatoria")
     @Column(name = "fecha_reserva", nullable = false)
     private LocalDate fechaReserva;
 
@@ -58,19 +57,19 @@ public class Reserva {
     @Column(nullable = true, length = 255)
     private String requisitos;
 
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser un número positivo")
     @Column(nullable = true)
     private double precio;
 
-    @Pattern(regexp = "^[0-9]+(\\.[0-9]{1,2})?$", message = "El precio debe ser un número válido")
+    @DecimalMin(value = "0.0", inclusive = false, message = "El precio 10 debe ser un número positivo")
     @Column(name = "precio_10", nullable = true)
     private double precio10;
 
-    @NotBlank(message = "La hora no puede estar en blanco")
+    @NotNull(message = "La hora es obligatoria")
     @Column(nullable = false)
     private LocalTime hora;
 
-    @NotNull(message = "Indicar si es eurotaxi es obligatorio")
+    @NotNull(message = "Indicar si es eurotaxi")
     @Column(nullable = false)
     private boolean eurotaxi;
 
@@ -84,11 +83,7 @@ public class Reserva {
             String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
 
         this.cliente = cliente;
-        if (conductor != null) {
-            this.conductor = conductor;
-        } else {
-            this.conductor = null; // Permite que el conductor sea nulo
-        }
+        this.conductor = conductor;
         this.origen = origen;
         this.destino = destino;
         this.nPersona = nPersona;
@@ -144,10 +139,12 @@ public class Reserva {
         this.destino = destino;
     }
 
+    @JsonProperty("nPersona")
     public int getNPersona() {
         return nPersona;
     }
 
+    @JsonProperty("nPersona")
     public void setNPersona(int nPersona) {
         this.nPersona = nPersona;
     }

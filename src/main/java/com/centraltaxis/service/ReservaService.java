@@ -3,6 +3,10 @@ package com.centraltaxis.service;
 // Importamos las clases necesarias para el servicio Reserva
 import com.centraltaxis.model.Reserva;
 import com.centraltaxis.repository.ReservaRepository;
+import com.centraltaxis.repository.ClienteRepository;
+import com.centraltaxis.model.Cliente;
+import com.centraltaxis.repository.ConductorRepository;
+import com.centraltaxis.model.Conductor;
 
 import java.util.List;
 
@@ -15,9 +19,28 @@ public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
+    @Autowired
+    private ClienteRepository clienteRepository;
+    @Autowired
+    private ConductorRepository conductorRepository;
 
     // Método para guardar o actualizar una reserva
     public Reserva guardarReserva(Reserva reserva) {
+        // Obtenemos el cliente y lo asignamos a la reserva
+        Cliente cliente = clienteRepository.findById(reserva.getCliente().getIdCliente())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+        // Asignamos el cliente a la reserva
+        reserva.setCliente(cliente);
+
+        // Obtenemos el conductor si lo hay y lo asignamos a la reserva, si no lo hay,
+        // lo dejamos como null
+        if (reserva.getConductor() != null) {
+            Conductor conductor = conductorRepository.findById(reserva.getConductor().getIdConductor())
+                    .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+            reserva.setConductor(conductor);
+        } else {
+            reserva.setConductor(null);
+        }
         return reservaRepository.save(reserva);
     }
 

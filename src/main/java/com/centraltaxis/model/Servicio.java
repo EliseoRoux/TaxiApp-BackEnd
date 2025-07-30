@@ -33,7 +33,7 @@ public class Servicio {
     // Relacionamos la entidad Servicio con la entidad Cliente indicando la
     // cardinalidad y la clave foranea
     @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
+    @JoinColumn(name = "id_cliente", nullable = true)
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Servicio
@@ -66,7 +66,7 @@ public class Servicio {
     @Column(name = "precio_10", nullable = true)
     private double precio10;
 
-    @NotNull(message = "Indicar si es eurotaxi es obligatorio")
+    @NotNull(message = "Indicar si es eurotaxi")
     @Column(nullable = false)
     private boolean eurotaxi;
 
@@ -90,8 +90,7 @@ public class Servicio {
         this.precio10 = precio10;
         this.hora = hora;
         this.eurotaxi = eurotaxi;
-        if (conductor != null)
-            this.conductor = conductor;
+        this.conductor = conductor;
         this.cliente = cliente;
 
     }
@@ -117,7 +116,7 @@ public class Servicio {
         return cliente;
     }
 
-    public void  setCliente(Cliente cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
@@ -141,6 +140,7 @@ public class Servicio {
     public int getNPersona() {
         return nPersona;
     }
+
     @JsonProperty("nPersona")
     public void setNPersona(int nPersona) {
         this.nPersona = nPersona;
