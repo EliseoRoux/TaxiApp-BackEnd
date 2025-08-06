@@ -2,6 +2,7 @@ package com.centraltaxis.repository;
 
 // Importamos las clases para esta interfaz, en este caso Cliente
 import com.centraltaxis.model.Cliente;
+
 // Importamos las clases necesarias para JPA
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     * 
     */
 
-   String findByTelefono(String telefono);
+   Cliente findByTelefono(String telefono);
 
 }

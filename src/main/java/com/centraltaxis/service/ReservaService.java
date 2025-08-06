@@ -26,21 +26,33 @@ public class ReservaService {
 
     // Método para guardar o actualizar una reserva
     public Reserva guardarReserva(Reserva reserva) {
-        // Obtenemos el cliente y lo asignamos a la reserva
-        Cliente cliente = clienteRepository.findById(reserva.getCliente().getIdCliente())
-                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        // Asignamos el cliente a la reserva
-        reserva.setCliente(cliente);
+        // Buscamos el cliente por el telefono
+        Cliente clienteExistente = clienteRepository.findByTelefono(reserva.getCliente().getTelefono());
+        // Si el cliente no existe, creamos un nuevo cliente
+        if (clienteExistente == null) {
+            Cliente nuevoCliente = new Cliente();
+            // Asignamos los datos de la reserva al nuevo cliente
+            nuevoCliente.setNombre(reserva.getCliente().getNombre());
+            nuevoCliente.setTelefono(reserva.getCliente().getTelefono());
+            // Guardamos el nuevo cliente
+            nuevoCliente = clienteRepository.save(nuevoCliente);
+            // Asignamos el nuevo cliente a la reserva
+            reserva.setCliente(nuevoCliente);
+        } else {
+            // Si existe lo asignamos a la reserva
+            reserva.setCliente(clienteExistente);
+        }
 
-        // Obtenemos el conductor si lo hay y lo asignamos a la reserva, si no lo hay,
-        // lo dejamos como null
+        // Ahora buscamos si el conductor lo han asignado o es null
+        // Si lo han asignado lo insertamos a la reserva
         if (reserva.getConductor() != null) {
+            // Ya que no es null lo buscamos
             Conductor conductor = conductorRepository.findById(reserva.getConductor().getIdConductor())
                     .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+            // Y lo asignamos a la reserva
             reserva.setConductor(conductor);
-        } else {
-            reserva.setConductor(null);
         }
+        // Guardamos la reserva
         return reservaRepository.save(reserva);
     }
 

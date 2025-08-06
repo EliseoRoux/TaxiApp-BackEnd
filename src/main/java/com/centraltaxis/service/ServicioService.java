@@ -23,23 +23,36 @@ public class ServicioService {
 
     // Método para guardar o actualizar un servicio
     public Servicio guardarServicio(Servicio servicio) {
-        // Valida y asigna el cliente
-        Cliente cliente = clienteRepository.findById(servicio.getCliente().getIdCliente())
-            .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
-        servicio.setCliente(cliente);
-        // Si el conductor es nulo, lo dejamos como null
-        if (servicio.getConductor() != null) {
-            // Si el conductor no es nulo, buscamos el conductor por ID
-            // y lo asignamos al servicio
-            Conductor conductor = conductorRepository.findById(servicio.getConductor().getIdConductor())
-                .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
-            servicio.setConductor(conductor);
+        // Buscamos el cliente por el telefono
+        Cliente clienteExistente = clienteRepository.findByTelefono(servicio.getCliente().getTelefono());
+        // Si el cliente no existe, creamos un nuevo cliente
+        if (clienteExistente == null) {
+            Cliente nuevoCliente = new Cliente();
+            // Asignamos los datos del servicio al nuevo cliente
+            nuevoCliente.setNombre(servicio.getCliente().getNombre());
+            nuevoCliente.setTelefono(servicio.getCliente().getTelefono());
+            // Guardamos el nuevo cliente
+            nuevoCliente = clienteRepository.save(nuevoCliente);
+            // Asignamos el nuevo cliente al servicio
+            servicio.setCliente(nuevoCliente);
         } else {
-            servicio.setConductor(null);
+            // Si existe lo asignamos a el servicio
+            servicio.setCliente(clienteExistente);
         }
+
+        // Ahora buscamos si el conductor lo han asignado o es null
+        // Si lo han asignado lo insertamos al servicio
+        if (servicio.getConductor() != null) {
+            // Ya que no es null lo buscamos
+            Conductor conductor = conductorRepository.findById(servicio.getConductor().getIdConductor())
+                    .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+                // Y lo asignamos al servicio
+                servicio.setConductor(conductor);
+        }
+        // Guardamos el servicio
         return servicioRepository.save(servicio);
+
     }
-    
 
     // Método para buscar un servicio por ID
     public Servicio buscarServicioPorId(int id) {

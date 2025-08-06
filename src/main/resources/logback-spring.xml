@@ -1,0 +1,40 @@
+<!-- Archivo: src/main/resources/logback-spring.xml -->
+<configuration>
+    <!-- Define variables para rutas y nombres de archivos -->
+    <property name="LOG_PATH" value="./logs"/>  <!-- Carpeta donde se guardarán los logs -->
+    <property name="LOG_FILE" value="centraltaxis"/>  <!-- Nombre base del archivo de log -->
+    
+    <!-- Configuración para mostrar logs en la consola -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- Formato: Fecha Hora [Hilo] Nivel Logger - Mensaje -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Configuración para guardar logs en archivo -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE}.log</file>  <!-- Archivo actual de log -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Patrón para archivos rotados: nombre-fecha-numero.log -->
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>  <!-- Conservar logs de 30 días -->
+            <!-- Política para rotar por tamaño y tiempo -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>  <!-- Rotar cuando supere 10MB -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- Configuración raíz: nivel INFO para ambos appenders -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>  <!-- Mostrar en consola -->
+        <appender-ref ref="FILE"/>     <!-- Guardar en archivo -->
+    </root>
+    
+    <!-- Nivel más detallado (DEBUG) solo para nuestro paquete -->
+    <logger name="com.centraltaxis" level="DEBUG"/>
+</configuration>
