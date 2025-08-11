@@ -7,6 +7,7 @@ import javax.persistence.*;
 // Importamos las anotaciones necesarias para la validación
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 // Indicamos que la clase Servicio es una entidad JPA
@@ -34,6 +35,7 @@ public class Servicio {
     // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = true)
+    @JsonIgnoreProperties({ "servicios" })
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Servicio
@@ -199,7 +201,7 @@ public class Servicio {
         return "Servicio{" +
                 "idServicio=" + idServicio +
                 ", conductor=" + (conductor != null ? conductor.getIdConductor() : "Conductor no asignado") +
-                ", cliente=" + cliente.getIdCliente() +
+                ", cliente=" + (cliente != null ? cliente.getIdCliente() : "Cliente no asignado") +
                 ", origen='" + origen + '\'' +
                 ", destino='" + destino + '\'' +
                 ", nPersona=" + nPersona +

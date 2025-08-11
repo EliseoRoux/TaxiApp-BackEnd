@@ -32,11 +32,11 @@ public class Conductor {
 
     @Digits(integer = 10, fraction = 2, message = "La deuda debe ser un número válido")
     @Column(nullable = true)
-    private double deuda;
+    private Double deuda;
 
     @Digits(integer = 10, fraction = 2, message = "El dinero generado debe ser un número válido")
     @Column(name = "dinero_generado", nullable = true)
-    private double dineroGenerado;
+    private Double dineroGenerado;
 
     // Constructor
     public Conductor() {
