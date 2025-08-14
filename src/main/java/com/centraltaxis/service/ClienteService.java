@@ -17,10 +17,13 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    // Metodo para guardar o actualizar un cliente
+    // Metodo para guardar un cliente
     public Cliente guardarCliente(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
+
+    // Metodo para actualizar cliente con datos parciales
+    
 
     // Metodo para borrar un cliente por ID
     public void eliminarClientePorId(int id) {

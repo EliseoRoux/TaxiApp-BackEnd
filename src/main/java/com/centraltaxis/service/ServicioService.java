@@ -28,31 +28,39 @@ public class ServicioService {
     private ConductorRepository conductorRepository;
 
     public Servicio guardarServicio(Servicio servicio) {
-        // Validar cliente
+        // Validar cliente obligatorio
         if (servicio.getCliente() == null) {
             throw new IllegalArgumentException("El cliente es obligatorio");
         }
 
-        // Validar campos mínimos del cliente
-        if (servicio.getCliente().getNombre() == null || servicio.getCliente().getTelefono() == null) {
+        String telefono = servicio.getCliente().getTelefono();
+        String nombre = servicio.getCliente().getNombre();
+
+        if (nombre == null || telefono == null || telefono.isBlank()) {
             throw new IllegalArgumentException("Nombre y teléfono del cliente son obligatorios");
         }
 
-        // Buscar o crear cliente
-        Cliente cliente = clienteRepository.findByTelefono(servicio.getCliente().getTelefono());
+        // Normalizar teléfono (quitar espacios)
+        telefono = telefono.trim();
+        servicio.getCliente().setTelefono(telefono);
+
+        // Buscar cliente existente
+        Cliente cliente = clienteRepository.findByTelefono(telefono);
+
         if (cliente == null) {
-            // Validar que el teléfono no esté vacío
-            if (servicio.getCliente().getTelefono().isBlank()) {
-                throw new IllegalArgumentException("El teléfono del cliente no puede estar vacío");
-            }
-            cliente = clienteRepository.save(servicio.getCliente());
+            // Crear nuevo cliente
+            cliente = new Cliente();
+            cliente.setNombre(nombre.trim());
+            cliente.setTelefono(telefono);
+            cliente = clienteRepository.save(cliente);
         } else {
-            // Actualizar nombre si es diferente
-            if (!cliente.getNombre().equals(servicio.getCliente().getNombre())) {
-                cliente.setNombre(servicio.getCliente().getNombre());
-                cliente = clienteRepository.save(cliente);
+            // Actualizar nombre si cambió
+            if (!cliente.getNombre().equalsIgnoreCase(nombre.trim())) {
+                cliente.setNombre(nombre.trim());
+                clienteRepository.save(cliente);
             }
         }
+
         servicio.setCliente(cliente);
 
         // Verificar conductor si se asigna
@@ -64,7 +72,7 @@ public class ServicioService {
             servicio.setConductor(null);
         }
 
-        // Calculamos el precio10 siempre al 10% del precio del servicio
+        // Calcular precio10
         servicio.setPrecio10(servicio.getPrecio() * 0.10);
 
         // Guardar servicio
