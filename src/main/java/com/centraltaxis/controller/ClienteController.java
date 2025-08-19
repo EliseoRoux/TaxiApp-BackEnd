@@ -1,90 +1,79 @@
 package com.centraltaxis.controller;
 
-// Importamos las clases necesarias para el controlador
-import com.centraltaxis.model.Cliente;
+import com.centraltaxis.dto.cliente.ClienteCreateDTO;
+import com.centraltaxis.dto.cliente.ClienteResponseDTO;
+import com.centraltaxis.dto.cliente.ClienteUpdateDTO;
 import com.centraltaxis.service.ClienteService;
-// Importamos las clases necesarias para manejar listas
-import java.util.List;
-// Importamos las anotaciones de validación
-import javax.validation.*;
-import javax.validation.constraints.Min;
-
-// Importamos las anotaciones de Spring
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-// Importamos la anotación para definir un controlador REST
 import org.springframework.web.bind.annotation.*;
 
-// Importamos la anotación para definir el controlador como un controlador REST
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import java.util.List;
+
 @RestController
-// Definimos la ruta base para este controlador
 @RequestMapping("/api/clientes")
-// Usamos @Validated para habilitar la validación de los parámetros de entrada
 @Validated
 public class ClienteController {
 
-    // Inyectamos el servicio ClienteService para manejar la lógica de negocio
     @Autowired
     private ClienteService clienteService;
 
-    // Aquí se pueden definir los endpoints para manejar las solicitudes HTTP
-    // relacionadas con Cliente
-    // CRUD
-
     // ------------------------------ CREATE ------------------------------ //
-
-    // Crear un nuevo cliente
     @PostMapping
-    public ResponseEntity<Cliente> crearCliente(@Valid @RequestBody Cliente cliente) {
-        // Llamamos al servicio para guardar el nuevo cliente
-        Cliente nuevoCliente = clienteService.guardarCliente(cliente);
-        // Devolvemos el cliente creado con un código de estado 201 (Creado)
+    public ResponseEntity<ClienteResponseDTO> crearCliente(
+            @Valid @RequestBody ClienteCreateDTO clienteCreateDTO) {
+        ClienteResponseDTO nuevoCliente = clienteService.crearCliente(clienteCreateDTO);
         return ResponseEntity.status(201).body(nuevoCliente);
     }
 
     // ------------------------------ READ ------------------------------ //
-
-    // Obtenemos todos los clientes
     @GetMapping
-    public ResponseEntity<List<Cliente>> obtenerTodosLosClientes() {
-        // Llamamos al servicio para listar todos los clientes
-        List<Cliente> clientes = clienteService.listarClientes();
-        return ResponseEntity.ok(clientes); // Devolvemos la lista de clientes con un código de estado 200 (OK)
+    public ResponseEntity<List<ClienteResponseDTO>> obtenerTodosLosClientes() {
+        List<ClienteResponseDTO> clientes = clienteService.listarTodosLosClientes();
+        return ResponseEntity.ok(clientes);
     }
 
-    // Obtener un cliente por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> obtenerClientePorId(@PathVariable @Min(1) int id) {
-        Cliente cliente = clienteService.buscarClientePorId(id); // Lanza ResourceNotFoundException si no existe
-        return ResponseEntity.ok(cliente); // Si se encuentra, devolvemos el cliente
-    }
-
-    // ------------------------------ UPDATE ------------------------------ //
-
-    // Actualizar un cliente existente
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable @Min(1) int id,
-            @Valid @RequestBody Cliente clienteActualizado) {
-        // Buscamos el cliente por el ID
-        Cliente clienteExistente = clienteService.buscarClientePorId(id);
-        // Actualizamos los datos del cliente existente
-        clienteExistente.setNombre(clienteActualizado.getNombre());
-        clienteExistente.setTelefono(clienteActualizado.getTelefono());
-        // Llamamos al servicio para guardar el cliente actualizado
-        Cliente cliente = clienteService.guardarCliente(clienteExistente);
-        // Devolvemos el cliente actualizado con un código de estado 200 (OK)
+    public ResponseEntity<ClienteResponseDTO> obtenerClientePorId(
+            @PathVariable @Min(1) int id) {
+        ClienteResponseDTO cliente = clienteService.obtenerClientePorId(id);
         return ResponseEntity.ok(cliente);
     }
 
-    // ------------------------------ DELETE ------------------------------ //
+    @GetMapping("/telefono/{telefono}")
+    public ResponseEntity<ClienteResponseDTO> obtenerClientePorTelefono(
+            @PathVariable @Pattern(regexp = "^(\\+?[0-9]{1,3}[-.\\s]?)?([0-9]{2,4}[-.\\s]?){2,4}[0-9]{2,4}$", 
+                                 message = "Teléfono inválido") String telefono) {
+        ClienteResponseDTO cliente = clienteService.buscarClientePorTelefono(telefono);
+        return ResponseEntity.ok(cliente);
+    }
 
-    // Eliminar un cliente por ID
+    // ------------------------------ UPDATE ------------------------------ //
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteResponseDTO> actualizarCliente(
+            @PathVariable @Min(1) int id,
+            @Valid @RequestBody ClienteUpdateDTO clienteUpdateDTO) {
+        ClienteResponseDTO clienteActualizado = clienteService.actualizarCliente(id, clienteUpdateDTO);
+        return ResponseEntity.ok(clienteActualizado);
+    }
+
+    // ------------------------------ DELETE ------------------------------ //
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable @Min(1) int id) {
-        // Intentamos eliminar el cliente por ID
-        clienteService.eliminarClientePorId(id);
-        // Devolvemos un código de estado 204 (No Content) si la eliminación fue exitosa
+    public ResponseEntity<Void> eliminarCliente(
+            @PathVariable @Min(1) int id) {
+        clienteService.eliminarCliente(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ------------------------------ UTILIDADES ------------------------------ //
+    @GetMapping("/{id}/existe")
+    public ResponseEntity<Boolean> existeCliente(
+            @PathVariable @Min(1) int id) {
+        boolean existe = clienteService.existeCliente(id);
+        return ResponseEntity.ok(existe);
     }
 }

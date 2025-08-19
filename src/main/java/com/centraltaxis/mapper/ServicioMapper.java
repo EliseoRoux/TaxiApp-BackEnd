@@ -7,7 +7,7 @@ import com.centraltaxis.model.Servicio;
 import org.springframework.stereotype.Component;
 
 /**
- * Mapper manual Entidad <-> DTO (sin MapStruct).
+ * Mapper manual Entidad <-> DTO.
  * - El Service se encargará de: buscar/crear Cliente por teléfono y traer
  * Conductor por ID.
  * - Aquí sólo formamos entidades con datos mínimos y convertimos
@@ -25,7 +25,7 @@ public class ServicioMapper {
         s.setFecha(dto.getFecha());
         s.setEurotaxi(Boolean.TRUE.equals(dto.getEurotaxi()));
         s.setHora(dto.getHora());
-        s.setRequisitos(null); // se puede setear desde el DTO si lo añades allí
+        s.setRequisitos(null); // se puede setear desde el DTO 
 
         // Precio y precio10 pueden venir 0. Si precio10 es null, lo dejamos en 0.
         s.setPrecio(dto.getPrecio() != null ? dto.getPrecio() : 0d);

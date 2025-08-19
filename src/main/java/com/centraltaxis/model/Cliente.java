@@ -1,5 +1,7 @@
 package com.centraltaxis.model;
 
+import java.time.LocalDateTime;
+
 // Importamos las anotaciones necesarias para JPA
 import javax.persistence.*;
 // Importamos las anotaciones necesarias para la validación
@@ -31,6 +33,12 @@ public class Cliente {
     @NotBlank(message = "El telefono es obligatorio")
     @Column(nullable = false, length = 15)
     private String telefono;
+
+    @Column(name = "fecha_creacion")
+    private LocalDateTime fechaCreacion;
+
+    @Column(name = "fecha_actualizacion")
+    private LocalDateTime fechaActualizacion;
 
     // ---------------------------- Constructores ----------------------------
     public Cliente() {
@@ -67,12 +75,34 @@ public class Cliente {
         this.telefono = telefono;
     }
 
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getFechaActualizacion() {
+        return fechaActualizacion;
+    }
+
+    public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
+        this.fechaActualizacion = fechaActualizacion;
+    }
+
     @Override
     public String toString() {
         return "Cliente{" +
                 "id=" + idCliente +
                 ", nombre='" + nombre + '\'' +
                 ", telefono='" + telefono + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", fechaActualizacion=" + fechaActualizacion +
                 '}';
     }
 }
