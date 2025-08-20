@@ -1,18 +1,16 @@
 package com.centraltaxis.dto.conductor;
 
-/** DTO pequeño para representar conductor en respuestas */
-public class ConductorInfoDTO {
-    private Integer idConductor;
+public class ConductorCreateDTO {
+
     private String nombre;
     private String telefono;
 
-    // getters y setters
-    public Integer getIdConductor() {
-        return idConductor;
+    public ConductorCreateDTO() {
     }
 
-    public void setIdConductor(Integer idConductor) {
-        this.idConductor = idConductor;
+    public ConductorCreateDTO(String nombre, String telefono) {
+        this.nombre = nombre;
+        this.telefono = telefono;
     }
 
     public String getNombre() {
@@ -31,4 +29,5 @@ public class ConductorInfoDTO {
         this.telefono = telefono;
     }
 
+    
 }

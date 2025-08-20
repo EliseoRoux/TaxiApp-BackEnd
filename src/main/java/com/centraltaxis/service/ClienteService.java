@@ -9,7 +9,6 @@ import com.centraltaxis.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +24,6 @@ public class ClienteService {
     // Crear cliente desde DTO
     public ClienteResponseDTO crearCliente(ClienteCreateDTO clienteCreateDTO) {
         Cliente cliente = clienteMapper.toEntity(clienteCreateDTO);
-        // SETEAR FECHA MANUALMENTE
-        LocalDateTime now = LocalDateTime.now();
-        cliente.setFechaCreacion(now);
-         cliente.setFechaActualizacion(now);
         Cliente clienteGuardado = clienteRepository.save(cliente);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
@@ -37,9 +32,6 @@ public class ClienteService {
     public ClienteResponseDTO actualizarCliente(int id, ClienteUpdateDTO clienteUpdateDTO) {
         Cliente clienteExistente = buscarClienteEntidadPorId(id);
         Cliente clienteActualizado = clienteMapper.toEntity(clienteUpdateDTO, clienteExistente);
-        // SETEAR FECHA MANUALMENTE
-        clienteActualizado.setFechaActualizacion(LocalDateTime.now());
-
         Cliente clienteGuardado = clienteRepository.save(clienteActualizado);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }

@@ -5,8 +5,6 @@ import com.centraltaxis.dto.cliente.ClienteResponseDTO;
 import com.centraltaxis.dto.cliente.ClienteUpdateDTO;
 import com.centraltaxis.model.Cliente;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Component;
 
 @Component
