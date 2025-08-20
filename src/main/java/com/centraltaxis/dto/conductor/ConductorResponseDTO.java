@@ -8,6 +8,17 @@ public class ConductorResponseDTO {
     private Double deuda;
     private Double dineroGenerado;
 
+    // Constructor
+    public ConductorResponseDTO() {}
+
+    public ConductorResponseDTO(Integer idConductor, String nombre, String telefono, Double deuda, Double dineroGenerado) {
+        this.idConductor = idConductor;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.deuda = deuda;
+        this.dineroGenerado = dineroGenerado;
+    }
+
     // getters y setters
     public Integer getIdConductor() {
         return idConductor;

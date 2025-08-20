@@ -1,7 +1,8 @@
 package com.centraltaxis.controller;
 
-// Importamos las clases necesarias para el controlador
-import com.centraltaxis.model.Conductor;
+import com.centraltaxis.dto.conductor.ConductorCreateDTO;
+import com.centraltaxis.dto.conductor.ConductorResponseDTO;
+import com.centraltaxis.dto.conductor.ConductorUpdateDTO;
 import com.centraltaxis.service.ConductorService;
 
 import java.util.List;
@@ -35,58 +36,40 @@ public class ConductorController {
 
     // Crear un nuevo conductor
     @PostMapping
-    public ResponseEntity<Conductor> crearConductor(@Valid @RequestBody Conductor conductor) {
+    public ResponseEntity<ConductorResponseDTO> crearConductor(@Valid @RequestBody ConductorCreateDTO conductorDTO) {
         // Lógica para crear un nuevo conductor
-        Conductor nuevoConductor = conductorService.guardarConductor(conductor);
+        ConductorResponseDTO nuevoConductor = conductorService.crearConductor(conductorDTO);
         // Retornamos el conductor creado con un código de estado 201
         return ResponseEntity.status(201).body(nuevoConductor);
     }
 
     // ------------------------------ READ ------------------------------ //
-
-    // Leer todos los conductores
     @GetMapping
-    public ResponseEntity<List<Conductor>> obtenemosConductores() {
-        // Llamamos al servicio para listar todos los conductores
-        List<Conductor> conductores = conductorService.listarConductores();
-        // Si hay conductores, los devolvemos con un código de estado 200 (OK)
+    public ResponseEntity<List<ConductorResponseDTO>> obtenemosConductores() {
+        List<ConductorResponseDTO> conductores = conductorService.listarConductores();
         return ResponseEntity.ok(conductores);
     }
 
-    // Leer un conductor por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Conductor> obtenerConductorPorId(@PathVariable @Min(1) int id) {
-        // Llamamos al servicio para buscar un conductor por ID
-        Conductor conductor = conductorService.buscarConductorPorId(id);
-        // Si se encuentra, devolvemos el conductor con un código de estado 200 (OK)
+    public ResponseEntity<ConductorResponseDTO> obtenerConductorPorId(
+            @PathVariable @Min(1) int id) {
+        ConductorResponseDTO conductor = conductorService.buscarConductorPorId(id);
         return ResponseEntity.ok(conductor);
     }
 
     // ------------------------------ UPDATE ------------------------------ //
-
-    // Actualizar un conductor existente
     @PutMapping("/{id}")
-    public ResponseEntity<Conductor> actualizarConductor(@PathVariable @Min(1) int id,
-            @Valid @RequestBody Conductor conductorActualizado) {
-        // Llamamos al servicio para buscar el conductor por ID
-        Conductor conductorExistente = conductorService.buscarConductorPorId(id);
-        // Actualizamos los datos del conductor existente
-        conductorExistente.setNombre(conductorActualizado.getNombre());
-        conductorExistente.setTelefono(conductorActualizado.getTelefono());
-        conductorExistente.setDeuda(conductorActualizado.getDeuda());
-        conductorExistente.setDineroGenerado(conductorActualizado.getDineroGenerado());
-        // Guardamos el conductor actualizado
-        Conductor conductorGuardado = conductorService.guardarConductor(conductorExistente);
-        return ResponseEntity.ok(conductorGuardado);
+    public ResponseEntity<ConductorResponseDTO> actualizarConductor(
+            @PathVariable @Min(1) int id,
+            @Valid @RequestBody ConductorUpdateDTO conductorDTO) { 
+        ConductorResponseDTO conductorActualizado = conductorService.actualizarConductor(id, conductorDTO);
+        return ResponseEntity.ok(conductorActualizado);
     }
 
     // ------------------------------ DELETE ------------------------------ //
-
-    // Eliminar un conductor por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarConductor(@PathVariable @Min(1) int id) {
-        // Llamamos al servicio para eliminar un conductor por ID
         conductorService.eliminarConductorPorId(id);
-        return ResponseEntity.noContent().build(); // Devolvemos un 204 No Content si se elimina correctamente
+        return ResponseEntity.noContent().build();
     }
 }
