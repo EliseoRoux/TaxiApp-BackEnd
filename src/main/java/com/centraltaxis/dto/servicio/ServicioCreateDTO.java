@@ -19,6 +19,7 @@ public class ServicioCreateDTO {
     private LocalDate fecha;
     private Boolean eurotaxi;
     private LocalTime hora;
+    private String requisitos;
 
     // Campos de precio (pueden venir 0).
     private Double precio; 
@@ -124,5 +125,13 @@ public class ServicioCreateDTO {
 
     public void setClienteTelefono(String clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
+    }
+
+    public String getRequisitos() {
+        return requisitos;
+    }
+
+    public void setRequisitos(String requisitos) {
+        this.requisitos = requisitos;
     }
 }
