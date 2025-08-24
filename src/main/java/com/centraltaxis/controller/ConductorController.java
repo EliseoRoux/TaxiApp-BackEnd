@@ -61,7 +61,7 @@ public class ConductorController {
     @PutMapping("/{id}")
     public ResponseEntity<ConductorResponseDTO> actualizarConductor(
             @PathVariable @Min(1) int id,
-            @Valid @RequestBody ConductorUpdateDTO conductorDTO) { 
+            @Valid @RequestBody ConductorUpdateDTO conductorDTO) {
         ConductorResponseDTO conductorActualizado = conductorService.actualizarConductor(id, conductorDTO);
         return ResponseEntity.ok(conductorActualizado);
     }
@@ -72,4 +72,17 @@ public class ConductorController {
         conductorService.eliminarConductorPorId(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/deudas")
+    public ResponseEntity<List<ConductorResponseDTO>> listarDeudas() {
+        List<ConductorResponseDTO> conductores = conductorService.listarConductoresConDeuda();
+        return ResponseEntity.ok(conductores);
+    }
+
+    @PutMapping("/{id}/pagar-deuda")
+    public ResponseEntity<ConductorResponseDTO> pagarDeuda(@PathVariable @Min(1) int id) {
+        ConductorResponseDTO conductor = conductorService.pagarDeuda(id);
+        return ResponseEntity.ok(conductor);
+    }
+
 }
