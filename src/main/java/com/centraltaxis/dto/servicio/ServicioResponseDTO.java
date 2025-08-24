@@ -22,7 +22,7 @@ public class ServicioResponseDTO {
     private LocalTime hora;
 
     private ConductorBriefDTO conductor; // puede ser null
-    private ClienteBriefDTO cliente; // no debería ser null en tu flujo
+    private ClienteBriefDTO cliente; // no null 
 
     public ServicioResponseDTO() {
     }

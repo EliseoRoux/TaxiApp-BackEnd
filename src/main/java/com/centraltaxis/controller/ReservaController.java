@@ -1,8 +1,11 @@
 package com.centraltaxis.controller;
 
 import com.centraltaxis.model.*;
-import com.centraltaxis.repository.*;
 import com.centraltaxis.service.ReservaService;
+import com.centraltaxis.mapper.ReservaMapper;
+import com.centraltaxis.dto.reserva.ReservaCreateDTO;
+import com.centraltaxis.dto.reserva.ReservaResponseDTO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.time.*;
 import java.util.List;
 import java.util.Map;
 
@@ -21,106 +23,65 @@ public class ReservaController {
 
     @Autowired
     private ReservaService reservaService;
+    
     @Autowired
-    private ConductorRepository conductorRepository;
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private ReservaMapper reservaMapper;
 
     // ------------------------------ CREATE ------------------------------
     @PostMapping
-    public ResponseEntity<Reserva> crearReserva(@Valid @RequestBody Reserva reserva) {
-        Reserva nuevaReserva = reservaService.guardarReserva(reserva);
-        return ResponseEntity.status(201).body(nuevaReserva);
+    public ResponseEntity<ReservaResponseDTO> crearReserva(@Valid @RequestBody ReservaCreateDTO reservaDTO) {
+        Reserva nuevaReserva = reservaService.crearReserva(reservaDTO);
+        ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(nuevaReserva);
+        return ResponseEntity.status(201).body(responseDTO);
     }
 
     // ------------------------------ READ ------------------------------
     @GetMapping
-    public ResponseEntity<List<Reserva>> obtenerTodasLasReservas() {
-        return ResponseEntity.ok(reservaService.listarReservas());
+    public ResponseEntity<List<ReservaResponseDTO>> obtenerTodasLasReservas() {
+        List<Reserva> reservas = reservaService.listarReservas();
+        List<ReservaResponseDTO> responseDTOs = reservas.stream()
+                .map(reservaMapper::toResponseDTO)
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable @Min(1) int id) {
-        return ResponseEntity.ok(reservaService.buscarReservaPorId(id));
+    public ResponseEntity<ReservaResponseDTO> obtenerReservaPorId(@PathVariable @Min(1) int id) {
+        Reserva reserva = reservaService.buscarReservaPorId(id);
+        ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(reserva);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @GetMapping("/conductor/{idConductor}")
-    public ResponseEntity<List<Reserva>> obtenerReservasPorConductor(@PathVariable int idConductor) {
-        return ResponseEntity.ok(reservaService.buscarReservasPorConductor(idConductor));
+    public ResponseEntity<List<ReservaResponseDTO>> obtenerReservasPorConductor(@PathVariable int idConductor) {
+        List<Reserva> reservas = reservaService.buscarReservasPorConductor(idConductor);
+        List<ReservaResponseDTO> responseDTOs = reservas.stream()
+                .map(reservaMapper::toResponseDTO)
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     // ------------------------------ UPDATE ------------------------------
     @PutMapping("/{id}")
-    public ResponseEntity<Reserva> actualizarReserva(
+    public ResponseEntity<ReservaResponseDTO> actualizarReserva(
             @PathVariable @Min(1) int id,
-            @Valid @RequestBody Reserva reservaActualizada) {
-
-        Reserva reservaExistente = reservaService.buscarReservaPorId(id);
-        reservaExistente.setConductor(reservaActualizada.getConductor());
-        reservaExistente.setCliente(reservaActualizada.getCliente());
-        reservaExistente.setOrigen(reservaActualizada.getOrigen());
-        reservaExistente.setDestino(reservaActualizada.getDestino());
-        reservaExistente.setNPersona(reservaActualizada.getNPersona());
-        reservaExistente.setRequisitos(reservaActualizada.getRequisitos());
-        reservaExistente.setPrecio(reservaActualizada.getPrecio());
-        reservaExistente.setPrecio10(reservaActualizada.getPrecio10());
-        reservaExistente.setEurotaxi(reservaActualizada.isEurotaxi());
-        reservaExistente.setFechaReserva(reservaActualizada.getFechaReserva());
-        reservaExistente.setHora(reservaActualizada.getHora());
-
-        return ResponseEntity.ok(reservaService.guardarReserva(reservaExistente));
+            @Valid @RequestBody ReservaCreateDTO reservaDTO) {
+        
+        Reserva reservaActualizada = reservaService.actualizarReserva(id, reservaDTO);
+        ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(reservaActualizada);
+        return ResponseEntity.ok(responseDTO);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> actualizarReservaParcial(
             @PathVariable @Min(1) int id,
-            @RequestBody Map<String, Object> updates) {
-
+            @RequestBody ReservaCreateDTO reservaDTO) {
+        
         try {
-            Reserva reservaExistente = reservaService.buscarReservaPorId(id);
-
-            // Actualización del conductor
-            if (updates.containsKey("conductor")) {
-                if (updates.get("conductor") == null) {
-                    reservaExistente.setConductor(null);
-                } else if (updates.get("conductor") instanceof Map<?, ?> conductorMap) {
-                    Integer idConductor = (Integer) conductorMap.get("idConductor");
-                    if (idConductor != null) {
-                        Conductor conductor = conductorRepository.findById(idConductor)
-                                .orElseThrow(
-                                        () -> new RuntimeException("Conductor no encontrado con ID: " + idConductor));
-                        reservaExistente.setConductor(conductor);
-                    }
-                }
-            }
-
-            // Actualización del cliente
-            if (updates.containsKey("cliente")) {
-                if (updates.get("cliente") == null) {
-                    reservaExistente.setCliente(null);
-                } else if (updates.get("cliente") instanceof Map<?, ?> clienteMap) {
-                    Integer idCliente = (Integer) clienteMap.get("idCliente");
-                    if (idCliente != null) {
-                        Cliente cliente = clienteRepository.findById(idCliente)
-                                .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + idCliente));
-                        reservaExistente.setCliente(cliente);
-                    }
-                }
-            }
-
-            // Actualización de otros campos
-            actualizarCampoSiExiste(updates, "origen", String.class, reservaExistente::setOrigen);
-            actualizarCampoSiExiste(updates, "destino", String.class, reservaExistente::setDestino);
-            actualizarCampoSiExiste(updates, "requisitos", String.class, reservaExistente::setRequisitos);
-            actualizarCampoSiExiste(updates, "precio", Double.class, reservaExistente::setPrecio);
-            actualizarCampoSiExiste(updates, "precio10", Double.class, reservaExistente::setPrecio10);
-            actualizarCampoSiExiste(updates, "eurotaxi", Boolean.class, reservaExistente::setEurotaxi);
-            actualizarCampoSiExiste(updates, "nPersona", Integer.class, reservaExistente::setNPersona);
-            actualizarCampoSiExiste(updates, "fechaReserva", LocalDate.class, reservaExistente::setFechaReserva);
-            actualizarCampoSiExiste(updates, "hora", LocalTime.class, reservaExistente::setHora);
-
-            return ResponseEntity.ok(reservaService.guardarReserva(reservaExistente));
-
+            Reserva reservaActualizada = reservaService.actualizarReservaParcial(id, reservaDTO);
+            ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(reservaActualizada);
+            return ResponseEntity.ok(responseDTO);
+            
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {
@@ -133,16 +94,5 @@ public class ReservaController {
     public ResponseEntity<Void> eliminarReserva(@PathVariable @Min(1) int id) {
         reservaService.eliminarReservaPorId(id);
         return ResponseEntity.noContent().build();
-    }
-
-    // ------------------------------ HELPERS ------------------------------
-    private <T> void actualizarCampoSiExiste(Map<String, Object> updates, String campo, Class<T> tipo,
-            java.util.function.Consumer<T> setter) {
-        if (updates.containsKey(campo)) {
-            Object valor = updates.get(campo);
-            if (tipo.isInstance(valor)) {
-                setter.accept(tipo.cast(valor));
-            }
-        }
     }
 }
