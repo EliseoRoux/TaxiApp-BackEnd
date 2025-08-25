@@ -3,10 +3,13 @@ package com.centraltaxis.repository;
 // Importamos la clase necesaria para esta interfaz, en este caso Reserva
 import com.centraltaxis.model.Reserva;
 
+import java.time.LocalDate;
 import java.util.List;
 
 // Importamos las clases necesarias para JPA
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -33,4 +36,13 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     */
 
    List<Reserva> findByConductor_IdConductor(int idConductor);
+
+   // Consulta con rango de fechas
+   @Query("SELECT r FROM Reserva r WHERE r.conductor.idConductor = :idConductor " +
+         "AND (:fechaInicio IS NULL OR r.fechaReserva >= :fechaInicio) " +
+         "AND (:fechaFin IS NULL OR r.fechaReserva <= :fechaFin)")
+   List<Reserva> findByConductorAndFechaRango(
+         @Param("idConductor") int idConductor,
+         @Param("fechaInicio") LocalDate fechaInicio,
+         @Param("fechaFin") LocalDate fechaFin);
 }

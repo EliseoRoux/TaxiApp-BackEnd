@@ -7,14 +7,18 @@ import com.centraltaxis.dto.reserva.ReservaCreateDTO;
 import com.centraltaxis.dto.reserva.ReservaResponseDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/reservas")
@@ -23,7 +27,7 @@ public class ReservaController {
 
     @Autowired
     private ReservaService reservaService;
-    
+
     @Autowired
     private ReservaMapper reservaMapper;
 
@@ -61,12 +65,26 @@ public class ReservaController {
         return ResponseEntity.ok(responseDTOs);
     }
 
+    @GetMapping("/conductor/{idConductor}/filtrar")
+    public ResponseEntity<List<ReservaResponseDTO>> obtenerReservaPorConductorYFecha(
+            @PathVariable @Min(1) int idConductor,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<Reserva> reservas = reservaService.buscarReservaPorConductorFecha(idConductor, fechaInicio, fechaFin);
+        List<ReservaResponseDTO> out = reservas.stream()
+                .map(reservaMapper::toResponseDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(out);
+
+    }
+
     // ------------------------------ UPDATE ------------------------------
     @PutMapping("/{id}")
     public ResponseEntity<ReservaResponseDTO> actualizarReserva(
             @PathVariable @Min(1) int id,
             @Valid @RequestBody ReservaCreateDTO reservaDTO) {
-        
+
         Reserva reservaActualizada = reservaService.actualizarReserva(id, reservaDTO);
         ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(reservaActualizada);
         return ResponseEntity.ok(responseDTO);
@@ -76,12 +94,12 @@ public class ReservaController {
     public ResponseEntity<?> actualizarReservaParcial(
             @PathVariable @Min(1) int id,
             @RequestBody ReservaCreateDTO reservaDTO) {
-        
+
         try {
             Reserva reservaActualizada = reservaService.actualizarReservaParcial(id, reservaDTO);
             ReservaResponseDTO responseDTO = reservaMapper.toResponseDTO(reservaActualizada);
             return ResponseEntity.ok(responseDTO);
-            
+
         } catch (RuntimeException e) {
             return ResponseEntity.status(404).body(Map.of("error", e.getMessage()));
         } catch (Exception e) {

@@ -9,6 +9,7 @@ import com.centraltaxis.model.Conductor;
 import com.centraltaxis.mapper.ReservaMapper;
 import com.centraltaxis.dto.reserva.ReservaCreateDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
-    
+
     @Autowired
     private ClienteRepository clienteRepository;
-    
+
     @Autowired
     private ConductorRepository conductorRepository;
-    
+
     @Autowired
     private ReservaMapper reservaMapper;
 
@@ -42,7 +43,7 @@ public class ReservaService {
     public Reserva guardarReserva(Reserva reserva) {
         // Buscamos el cliente por el telefono
         Cliente clienteExistente = clienteRepository.findByTelefono(reserva.getCliente().getTelefono());
-        
+
         // Si el cliente no existe, creamos un nuevo cliente
         if (clienteExistente == null) {
             Cliente nuevoCliente = new Cliente();
@@ -65,7 +66,7 @@ public class ReservaService {
         } else {
             reserva.setConductor(null);
         }
-        
+
         return reservaRepository.save(reserva);
     }
 
@@ -85,7 +86,6 @@ public class ReservaService {
         return guardarReserva(reservaExistente);
     }
 
-    // Resto de métodos se mantienen igual...
     public Reserva buscarReservaPorId(int id) {
         return reservaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
@@ -108,4 +108,9 @@ public class ReservaService {
     public List<Reserva> buscarReservasPorConductor(int idConductor) {
         return reservaRepository.findByConductor_IdConductor(idConductor);
     }
+
+    public List<Reserva> buscarReservaPorConductorFecha(int idConductor, LocalDate fechaInicio, LocalDate fechaFin) {
+        return reservaRepository.findByConductorAndFechaRango(idConductor, fechaInicio, fechaFin);
+    }
+
 }
