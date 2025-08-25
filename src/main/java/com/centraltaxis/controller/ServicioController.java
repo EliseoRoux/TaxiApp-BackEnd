@@ -8,6 +8,7 @@ import com.centraltaxis.mapper.ServicioMapper;
 import com.centraltaxis.model.*;
 import com.centraltaxis.service.ServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,18 +47,18 @@ public class ServicioController {
     }
 
     // ------------------------------ READ ------------------------------
-    
+
     // List GET
     @GetMapping
     public ResponseEntity<List<ServicioResponseDTO>> obtenerTodosLosServicios() {
         List<Servicio> servicios = servicioService.listarServicios();
         List<ServicioResponseDTO> out = servicios.stream()
-            .map(servicioMapper::toResponse)
-            .collect(Collectors.toList());
+                .map(servicioMapper::toResponse)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(out);
     }
 
-     // GET by ID
+    // GET by ID
     @GetMapping("/{id}")
     public ResponseEntity<ServicioResponseDTO> obtenerServicioPorId(@PathVariable @Min(1) int id) {
         Servicio s = servicioService.buscarServicioPorId(id);
@@ -68,8 +70,22 @@ public class ServicioController {
         return ResponseEntity.ok(servicioService.buscarServiciosPorConductor(idConductor));
     }
 
+    @GetMapping("/conductor/{idConductor}/filtrar")
+    public ResponseEntity<List<ServicioResponseDTO>> obtenerServiciosPorConductorYFechas(
+            @PathVariable @Min(1) int idConductor,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin) {
+
+        List<Servicio> servicios = servicioService.buscarServiciosPorConductorYFechas(idConductor, fechaInicio,
+                fechaFin);
+        List<ServicioResponseDTO> out = servicios.stream()
+                .map(servicioMapper::toResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(out);
+    }
+
     // ------------------------------ UPDATE ------------------------------
-    
+
     // UPDATE (PUT) -> recibe ServicioUpdateDTO, devuelve ServicioResponseDTO
     @PutMapping("/{id}")
     public ResponseEntity<ServicioResponseDTO> actualizarServicio(

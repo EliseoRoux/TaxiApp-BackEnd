@@ -2,9 +2,12 @@ package com.centraltaxis.repository;
 
 import com.centraltaxis.model.Servicio;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -31,5 +34,14 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
     */
 
    List<Servicio> findByConductor_IdConductor(int idConductor);
+
+   // Consulta con rango de fechas
+   @Query("SELECT s FROM Servicio s WHERE s.conductor.idConductor = :idConductor " +
+         "AND (:fechaInicio IS NULL OR s.fecha >= :fechaInicio) " +
+         "AND (:fechaFin IS NULL OR s.fecha <= :fechaFin)")
+   List<Servicio> findByConductorAndFechaRango(
+         @Param("idConductor") int idConductor,
+         @Param("fechaInicio") LocalDate fechaInicio,
+         @Param("fechaFin") LocalDate fechaFin);
 
 }

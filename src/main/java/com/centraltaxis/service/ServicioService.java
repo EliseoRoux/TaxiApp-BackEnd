@@ -152,6 +152,11 @@ public class ServicioService {
         return servicioRepository.findByConductor_IdConductor(idConductor);
     }
 
+    public List<Servicio> buscarServiciosPorConductorYFechas(
+            int idConductor, LocalDate fechaInicio, LocalDate fechaFin) {
+        return servicioRepository.findByConductorAndFechaRango(idConductor, fechaInicio, fechaFin);
+    }
+
     public long contarServicios() {
         return servicioRepository.count();
     }

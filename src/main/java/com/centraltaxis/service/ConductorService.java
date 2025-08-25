@@ -65,6 +65,13 @@ public class ConductorService {
                 .toList();
     }
 
+    public List<ConductorResponseDTO> conductoresSinDeuda() {
+        return conductorRepository.findConductoresSinDeuda()
+                .stream()
+                .map(conductorMapper::toResponseDTO)
+                .toList();
+    }
+
     public ConductorResponseDTO pagarDeuda(int id) {
         Conductor conductor = conductorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
