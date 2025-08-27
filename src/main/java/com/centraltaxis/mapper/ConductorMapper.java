@@ -20,6 +20,17 @@ public class ConductorMapper {
         conductor.setTelefono(dto.getTelefono());
         conductor.setDeuda(0.0);
         conductor.setDineroGenerado(0.0);
+        if(dto.getAsiento() != null){
+            conductor.setAsiento(dto.getAsiento());
+        } else {
+            conductor.setAsiento(0);
+        }
+        if(dto.getSillaBebe() != null){
+            conductor.setSillaBebe(dto.getSillaBebe());
+        } else {
+            conductor.setSillaBebe(0);
+        }
+        conductor.setEurotaxi(dto.isEurotaxi());
         return conductor;
     }
 
@@ -41,6 +52,15 @@ public class ConductorMapper {
         if (dto.getDineroGenerado() != null) {
             existente.setDineroGenerado(dto.getDineroGenerado());
         }
+        if(dto.getAsiento() != null){
+            existente.setAsiento(dto.getAsiento());
+        }
+        if(dto.getSillaBebe() != null){
+            existente.setSillaBebe(dto.getSillaBebe());
+        }
+        if(dto.getEurotaxi() != null){
+            existente.setEurotaxi(dto.getEurotaxi());
+        }
     }
 
     /**
@@ -52,7 +72,10 @@ public class ConductorMapper {
             conductor.getNombre(),
             conductor.getTelefono(),
             conductor.getDeuda(),
-            conductor.getDineroGenerado()
+            conductor.getDineroGenerado(),
+            conductor.getAsiento(),
+            conductor.getSillaBebe(),
+            conductor.isEurotaxi()
         );
     }
 }
