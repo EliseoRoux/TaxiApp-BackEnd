@@ -1,6 +1,7 @@
 package com.centraltaxis.dto.conductor;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -19,15 +20,27 @@ public class ConductorUpdateDTO {
     @Digits(integer = 10, fraction = 2, message = "El dinero generado debe ser un número válido")
     private Double dineroGenerado;
 
+    @Min(value = 0, message = "Debe ser un número positivo")
+    private Integer asiento;
+
+    @Min(value = 0, message = "Debe ser un número positivo")
+    private Integer sillaBebe;
+
+    private Boolean eurotaxi;
+
     // Constructor
     public ConductorUpdateDTO() {
     }
 
-    public ConductorUpdateDTO(String nombre, String telefono, Double deuda, Double dineroGenerado) {
+    public ConductorUpdateDTO(String nombre, String telefono, Double deuda, Double dineroGenerado, Integer asiento,
+            Integer sillaBebe, Boolean eurotaxi) {
         this.nombre = nombre;
         this.telefono = telefono;
         this.deuda = deuda;
         this.dineroGenerado = dineroGenerado;
+        this.asiento = asiento;
+        this.sillaBebe = sillaBebe;
+        this.eurotaxi = eurotaxi;
     }
 
     public String getNombre() {
@@ -62,12 +75,39 @@ public class ConductorUpdateDTO {
         this.dineroGenerado = dineroGenerado;
     }
 
+    public Integer getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(Integer asiento) {
+        this.asiento = asiento;
+    }
+
+    public Integer getSillaBebe() {
+        return sillaBebe;
+    }
+
+    public void setSillaBebe(Integer sillaBebe) {
+        this.sillaBebe = sillaBebe;
+    }
+
+    public Boolean getEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(Boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
+    }
+
     @Override
     public String toString() {
         return "ConductorUpdateDTO [nombre=" + nombre + ", telefono=" + telefono + ", deuda=" + deuda
-                + ", dineroGenerado=" + dineroGenerado + ", getNombre()=" + getNombre() + ", getTelefono()="
-                + getTelefono() + ", getClass()=" + getClass() + ", getDeuda()=" + getDeuda() + ", getDineroGenerado()="
-                + getDineroGenerado() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
+                + ", dineroGenerado=" + dineroGenerado + ", asiento=" + asiento + ", sillaBebe=" + sillaBebe
+                + ", eurotaxi=" + eurotaxi + ", getNombre()=" + getNombre() + ", getTelefono()=" + getTelefono()
+                + ", getDeuda()=" + getDeuda() + ", getDineroGenerado()=" + getDineroGenerado() + ", getAsiento()="
+                + getAsiento() + ", getSillaBebe()=" + getSillaBebe() + ", getClass()=" + getClass()
+                + ", getEurotaxi()=" + getEurotaxi() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+                + "]";
     }
 
 }

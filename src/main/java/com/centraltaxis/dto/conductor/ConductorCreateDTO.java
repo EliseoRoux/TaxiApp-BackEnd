@@ -15,12 +15,21 @@ public class ConductorCreateDTO {
     @Size(max = 15, message = "El teléfono no puede exceder los 15 caracteres")
     private String telefono;
 
+    private Integer asiento;
+
+    private Integer sillaBebe;
+
+    private boolean eurotaxi;
+
     public ConductorCreateDTO() {
     }
 
-    public ConductorCreateDTO(String nombre, String telefono) {
+    public ConductorCreateDTO(String nombre, String telefono, Integer asiento, Integer sillaBebe, boolean eurotaxi) {
         this.nombre = nombre;
         this.telefono = telefono;
+        this.asiento = asiento;
+        this.sillaBebe = sillaBebe;
+        this.eurotaxi = eurotaxi;
     }
 
     public String getNombre() {
@@ -39,11 +48,39 @@ public class ConductorCreateDTO {
         this.telefono = telefono;
     }
 
+    public Integer getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(Integer asiento) {
+        this.asiento = asiento;
+    }
+
+    public Integer getSillaBebe() {
+        return sillaBebe;
+    }
+
+    public void setSillaBebe(Integer sillaBebe) {
+        this.sillaBebe = sillaBebe;
+    }
+
+    public boolean isEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
+    }
+
     @Override
     public String toString() {
-        return "ConductorCreateDTO [nombre=" + nombre + ", telefono=" + telefono + ", getNombre()=" + getNombre()
-                + ", getTelefono()=" + getTelefono() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
-                + ", toString()=" + super.toString() + "]";
+        return "ConductorCreateDTO [nombre=" + nombre + ", telefono=" + telefono + ", asiento=" + asiento
+                + ", sillaBebe=" + sillaBebe + ", eurotaxi=" + eurotaxi + ", getNombre()=" + getNombre()
+                + ", getTelefono()=" + getTelefono() + ", getAsiento()=" + getAsiento() + ", getSillaBebe()="
+                + getSillaBebe() + ", isEurotaxi()=" + isEurotaxi() + ", getClass()=" + getClass() + ", hashCode()="
+                + hashCode() + ", toString()=" + super.toString() + "]";
     }
+
+    
 
 }
