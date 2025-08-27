@@ -76,12 +76,21 @@ public class Servicio {
     @Column(nullable = false)
     private LocalTime hora;
 
+    @Column()
+    private boolean mascota;
+
+    @Column()
+    private boolean silla;
+
+    @Column(name = "viaje_largo")
+    private boolean viajeLargo;
+
     // ---------------------------- Constructores ----------------------------
     public Servicio() {
     }
 
     public Servicio(Conductor conductor, Cliente cliente, String origen, String destino, int nPersona, LocalDate fecha,
-            String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
+            String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi, boolean mascota, boolean silla, boolean viajeLargo) {
 
         this.origen = origen;
         this.destino = destino;
@@ -94,6 +103,9 @@ public class Servicio {
         this.eurotaxi = eurotaxi;
         this.conductor = conductor;
         this.cliente = cliente;
+        this.mascota = mascota;
+        this.silla = silla;
+        this.viajeLargo = viajeLargo;
 
     }
 
@@ -196,21 +208,52 @@ public class Servicio {
         this.hora = hora;
     }
 
+    public int getnPersona() {
+        return nPersona;
+    }
+
+    public void setnPersona(int nPersona) {
+        this.nPersona = nPersona;
+    }
+
+    public boolean isMascota() {
+        return mascota;
+    }
+
+    public void setMascota(boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public boolean isSilla() {
+        return silla;
+    }
+
+    public void setSilla(boolean silla) {
+        this.silla = silla;
+    }
+
+    public boolean isViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
     @Override
     public String toString() {
-        return "Servicio{" +
-                "idServicio=" + idServicio +
-                ", conductor=" + (conductor != null ? conductor.getIdConductor() : "Conductor no asignado") +
-                ", cliente=" + (cliente != null ? cliente.getIdCliente() : "Cliente no asignado") +
-                ", origen='" + origen + '\'' +
-                ", destino='" + destino + '\'' +
-                ", nPersona=" + nPersona +
-                ", fecha=" + fecha +
-                ", requisitos='" + requisitos + '\'' +
-                ", precio=" + precio +
-                ", precio10=" + precio10 +
-                ", eurotaxi=" + eurotaxi +
-                ", hora=" + hora +
-                '}';
+        return "Servicio [idServicio=" + idServicio + ", conductor=" + conductor + ", cliente=" + cliente + ", origen="
+                + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fecha=" + fecha + ", requisitos="
+                + requisitos + ", precio=" + precio + ", precio10=" + precio10 + ", eurotaxi=" + eurotaxi + ", hora="
+                + hora + ", mascota=" + mascota + ", silla=" + silla + ", viajeLargo=" + viajeLargo + ", getClass()="
+                + getClass() + ", getIdServicio()=" + getIdServicio() + ", getConductor()=" + getConductor()
+                + ", hashCode()=" + hashCode() + ", getCliente()=" + getCliente() + ", getOrigen()=" + getOrigen()
+                + ", getDestino()=" + getDestino() + ", getNPersona()=" + getNPersona() + ", getFecha()=" + getFecha()
+                + ", getRequisitos()=" + getRequisitos() + ", getPrecio()=" + getPrecio() + ", getPrecio10()="
+                + getPrecio10() + ", isEurotaxi()=" + isEurotaxi() + ", getHora()=" + getHora() + ", getnPersona()="
+                + getnPersona() + ", isMascota()=" + isMascota() + ", isSilla()=" + isSilla() + ", isViajeLargo()="
+                + isViajeLargo() + ", toString()=" + super.toString() + "]";
     }
+
+    
 }

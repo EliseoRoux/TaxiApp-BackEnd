@@ -16,6 +16,9 @@ public class ServicioUpdateDTO {
     private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
     private Double precio;
     private Double precio10;
@@ -29,7 +32,7 @@ public class ServicioUpdateDTO {
     public ServicioUpdateDTO() {
     }
 
-    // Getters/Setters 
+    // Getters/Setters
     public String getOrigen() {
         return origen;
     }
@@ -132,5 +135,29 @@ public class ServicioUpdateDTO {
 
     public void setClienteTelefono(String clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
     }
 }

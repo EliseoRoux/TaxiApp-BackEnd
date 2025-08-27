@@ -24,8 +24,11 @@ public class ServicioMapper {
         s.setNPersona(dto.getNPersona() != null ? dto.getNPersona() : 0);
         s.setFecha(dto.getFecha());
         s.setEurotaxi(Boolean.TRUE.equals(dto.getEurotaxi()));
+        s.setMascota(Boolean.TRUE.equals(dto.getMascota()));
+        s.setSilla(Boolean.TRUE.equals(dto.getSilla()));
+        s.setViajeLargo(Boolean.TRUE.equals(dto.getViajeLargo()));
         s.setHora(dto.getHora());
-        s.setRequisitos(null); // se puede setear desde el DTO 
+        s.setRequisitos(null); // se puede setear desde el DTO
 
         // Precio y precio10 pueden venir 0. Si precio10 es null, lo dejamos en 0.
         s.setPrecio(dto.getPrecio() != null ? dto.getPrecio() : 0d);
@@ -45,6 +48,9 @@ public class ServicioMapper {
         target.setNPersona(dto.getNPersona() != null ? dto.getNPersona() : 0);
         target.setFecha(dto.getFecha());
         target.setEurotaxi(Boolean.TRUE.equals(dto.getEurotaxi()));
+        target.setMascota(Boolean.TRUE.equals(dto.getMascota()));
+        target.setSilla(Boolean.TRUE.equals(dto.getSilla()));
+        target.setViajeLargo(Boolean.TRUE.equals(dto.getViajeLargo()));
         target.setHora(dto.getHora());
         target.setPrecio(dto.getPrecio() != null ? dto.getPrecio() : 0d);
         target.setPrecio10(dto.getPrecio10() != null ? dto.getPrecio10() : 0d);
@@ -67,6 +73,12 @@ public class ServicioMapper {
             target.setFecha(dto.getFecha());
         if (dto.getEurotaxi() != null)
             target.setEurotaxi(dto.getEurotaxi());
+        if(dto.getMascota() != null)
+            target.setMascota(dto.getMascota());
+        if(dto.getSilla() != null)
+            target.setSilla(dto.getSilla());
+        if(dto.getViajeLargo() != null) 
+            target.setViajeLargo(dto.getViajeLargo());
         if (dto.getHora() != null)
             target.setHora(dto.getHora());
         if (dto.getPrecio() != null)
@@ -101,6 +113,9 @@ public class ServicioMapper {
         dto.setPrecio(s.getPrecio());
         dto.setPrecio10(s.getPrecio10());
         dto.setEurotaxi(s.isEurotaxi());
+        dto.setMascota(s.isMascota());
+        dto.setSilla(s.isSilla());
+        dto.setViajeLargo(s.isViajeLargo());
         dto.setHora(s.getHora());
 
         if (s.getCliente() != null) {
