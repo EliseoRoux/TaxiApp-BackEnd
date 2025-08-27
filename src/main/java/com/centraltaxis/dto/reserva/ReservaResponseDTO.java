@@ -13,6 +13,9 @@ public class ReservaResponseDTO {
     private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
+    private boolean mascota;
+    private boolean silla;
+    private boolean viajeLargo;
 
     // Campos de precio (pueden venir 0).
     private Double precio;
@@ -122,5 +125,28 @@ public class ReservaResponseDTO {
         this.cliente = cliente;
     }
 
-    
+    public boolean isMascota() {
+        return mascota;
+    }
+
+    public void setMascota(boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public boolean isSilla() {
+        return silla;
+    }
+
+    public void setSilla(boolean silla) {
+        this.silla = silla;
+    }
+
+    public boolean isViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
 }

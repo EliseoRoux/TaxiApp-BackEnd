@@ -20,7 +20,10 @@ public class ReservaMapper {
         reserva.setNPersona(dto.getnPersona());
         reserva.setFechaReserva(dto.getFechaReserva());
         reserva.setHora(dto.getHora());
-        reserva.setEurotaxi(dto.getEurotaxi());
+        reserva.setEurotaxi(Boolean.TRUE.equals(dto.getEurotaxi()));
+        reserva.setMascota(Boolean.TRUE.equals(dto.getMascota()));
+        reserva.setSilla(Boolean.TRUE.equals(dto.getSilla()));
+        reserva.setViajeLargo(Boolean.TRUE.equals(dto.getViajeLargo()));
         reserva.setRequisitos(dto.getRequisitos());
 
         // Precio puede ser null, así que lo dejamos como está
@@ -40,7 +43,10 @@ public class ReservaMapper {
         target.setNPersona(dto.getnPersona());
         target.setFechaReserva(dto.getFechaReserva());
         target.setHora(dto.getHora());
-        target.setEurotaxi(dto.getEurotaxi());
+        target.setEurotaxi(Boolean.TRUE.equals(dto.getEurotaxi()));
+        target.setMascota(Boolean.TRUE.equals(dto.getMascota()));
+        target.setSilla(Boolean.TRUE.equals(dto.getSilla()));
+        target.setViajeLargo(Boolean.TRUE.equals(dto.getViajeLargo()));
         target.setRequisitos(dto.getRequisitos());
 
         // Precio puede ser null, así que lo dejamos como está
@@ -63,6 +69,12 @@ public class ReservaMapper {
             target.setFechaReserva(dto.getFechaReserva());
         if (dto.getEurotaxi() != null)
             target.setEurotaxi(dto.getEurotaxi());
+        if (dto.getMascota() != null)
+            target.setMascota(dto.getMascota());
+        if (dto.getSilla() != null)
+            target.setSilla(dto.getSilla());
+        if (dto.getViajeLargo() != null)
+            target.setViajeLargo(dto.getViajeLargo());
         if (dto.getHora() != null)
             target.setHora(dto.getHora());
         if (dto.getPrecio() != null)
@@ -89,6 +101,9 @@ public class ReservaMapper {
         response.setFechaReserva(reserva.getFechaReserva());
         response.setHora(reserva.getHora());
         response.setEurotaxi(reserva.isEurotaxi());
+        response.setMascota(reserva.isMascota());
+        response.setSilla(reserva.isSilla());
+        response.setViajeLargo(reserva.isViajeLargo());
         response.setRequisitos(reserva.getRequisitos());
         response.setPrecio(reserva.getPrecio());
         response.setPrecio10(reserva.getPrecio10());
