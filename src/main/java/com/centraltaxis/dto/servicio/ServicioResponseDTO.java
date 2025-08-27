@@ -20,6 +20,9 @@ public class ServicioResponseDTO {
     private double precio10;
     private boolean eurotaxi;
     private LocalTime hora;
+    private boolean mascota;
+    private boolean silla;
+    private boolean viajeLargo;
 
     private ConductorBriefDTO conductor; // puede ser null
     private ClienteBriefDTO cliente; // no null 
@@ -127,4 +130,30 @@ public class ServicioResponseDTO {
     public void setCliente(ClienteBriefDTO cliente) {
         this.cliente = cliente;
     }
+
+    public boolean isMascota() {
+        return mascota;
+    }
+
+    public void setMascota(boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public boolean isSilla() {
+        return silla;
+    }
+
+    public void setSilla(boolean silla) {
+        this.silla = silla;
+    }
+
+    public boolean isViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
+    
 }

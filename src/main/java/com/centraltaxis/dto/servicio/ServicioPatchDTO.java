@@ -19,6 +19,9 @@ public class ServicioPatchDTO {
     private LocalTime hora;
     private Double precio;
     private Double precio10;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
     private Integer conductorId; // null explícito quita conductor
 
@@ -124,5 +127,29 @@ public class ServicioPatchDTO {
 
     public void setClienteTelefono(String clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
     }
 }

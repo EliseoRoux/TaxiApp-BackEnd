@@ -97,6 +97,9 @@ public class ServicioService {
         existente.setPrecio(servicioActualizado.getPrecio());
         existente.setPrecio10(servicioActualizado.getPrecio10());
         existente.setEurotaxi(servicioActualizado.isEurotaxi());
+        existente.setMascota(servicioActualizado.isMascota());
+        existente.setSilla(servicioActualizado.isSilla());
+        existente.setViajeLargo(servicioActualizado.isViajeLargo());
         existente.setFecha(servicioActualizado.getFecha());
         existente.setHora(servicioActualizado.getHora());
 
@@ -132,6 +135,9 @@ public class ServicioService {
         actualizarCampoSiExiste(updates, "precio", Double.class, servicioExistente::setPrecio);
         actualizarCampoSiExiste(updates, "precio10", Double.class, servicioExistente::setPrecio10);
         actualizarCampoSiExiste(updates, "eurotaxi", Boolean.class, servicioExistente::setEurotaxi);
+        actualizarCampoSiExiste(updates, "mascota", Boolean.class, servicioExistente::setMascota);
+        actualizarCampoSiExiste(updates, "silla", Boolean.class, servicioExistente::setSilla);
+        actualizarCampoSiExiste(updates, "viaje_largo", Boolean.class, servicioExistente::setViajeLargo);
         actualizarCampoSiExiste(updates, "nPersona", Integer.class, servicioExistente::setNPersona);
         actualizarCampoSiExiste(updates, "fecha", LocalDate.class, servicioExistente::setFecha);
         actualizarCampoSiExiste(updates, "hora", LocalTime.class, servicioExistente::setHora);
