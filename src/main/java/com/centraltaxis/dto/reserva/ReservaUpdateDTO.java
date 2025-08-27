@@ -12,6 +12,9 @@ public class ReservaUpdateDTO {
     private LocalDate fecha;
     private Boolean eurotaxi;
     private LocalTime hora;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
     // Campos de precio (pueden venir 0).
     private Double precio;
@@ -115,5 +118,28 @@ public class ReservaUpdateDTO {
         this.clienteTelefono = clienteTelefono;
     }
 
-    
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
 }

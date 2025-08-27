@@ -73,6 +73,14 @@ public class Reserva {
     @Column(nullable = false)
     private boolean eurotaxi;
 
+    @Column()
+    private boolean mascota;
+
+    @Column()
+    private boolean silla;
+
+    @Column(name = "viaje_largo")
+    private boolean viajeLargo;
     // ---------------------------- Constructores ----------------------------
 
     public Reserva() {
@@ -80,7 +88,8 @@ public class Reserva {
 
     public Reserva(Cliente cliente, Conductor conductor, String origen, String destino, int nPersona,
             LocalDate fechaReserva,
-            String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi) {
+            String requisitos, double precio, double precio10, LocalTime hora, boolean eurotaxi, boolean mascota,
+            boolean silla, boolean viajeLargo) {
 
         this.cliente = cliente;
         this.conductor = conductor;
@@ -93,6 +102,9 @@ public class Reserva {
         this.precio10 = precio10;
         this.hora = hora;
         this.eurotaxi = eurotaxi;
+        this.mascota = mascota;
+        this.silla = silla;
+        this.viajeLargo = viajeLargo;
     }
 
     // ---------------------------- Getters y Setters ----------------------------
@@ -197,22 +209,43 @@ public class Reserva {
         this.hora = hora;
     }
 
+    public boolean isMascota() {
+        return mascota;
+    }
+
+    public void setMascota(boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public boolean isSilla() {
+        return silla;
+    }
+
+    public void setSilla(boolean silla) {
+        this.silla = silla;
+    }
+
+    public boolean isViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
     @Override
     public String toString() {
-        return "Reserva{" +
-                "idReserva=" + idReserva +
-                ", conductor=" + (conductor != null ? conductor.getIdConductor() : "Conductor no asignado") +
-                ", cliente=" + cliente.getIdCliente() +
-                ", origen='" + origen + '\'' +
-                ", destino='" + destino + '\'' +
-                ", nPersona=" + nPersona +
-                ", fechaReserva=" + fechaReserva +
-                ", requisitos='" + requisitos + '\'' +
-                ", precio=" + precio +
-                ", precio10=" + precio10 +
-                ", hora=" + hora +
-                ", eurotaxi=" + eurotaxi +
-                '}';
+        return "Reserva [idReserva=" + idReserva + ", conductor=" + conductor + ", cliente=" + cliente + ", origen="
+                + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fechaReserva=" + fechaReserva
+                + ", requisitos=" + requisitos + ", precio=" + precio + ", precio10=" + precio10 + ", hora=" + hora
+                + ", eurotaxi=" + eurotaxi + ", mascota=" + mascota + ", silla=" + silla + ", viajeLargo=" + viajeLargo
+                + ", getClass()=" + getClass() + ", getIdReserva()=" + getIdReserva() + ", getConductor()="
+                + getConductor() + ", hashCode()=" + hashCode() + ", getCliente()=" + getCliente() + ", getOrigen()="
+                + getOrigen() + ", getDestino()=" + getDestino() + ", getNPersona()=" + getNPersona()
+                + ", getFechaReserva()=" + getFechaReserva() + ", getRequisitos()=" + getRequisitos() + ", getPrecio()="
+                + getPrecio() + ", getPrecio10()=" + getPrecio10() + ", isEurotaxi()=" + isEurotaxi() + ", getHora()="
+                + getHora() + ", isMascota()=" + isMascota() + ", isSilla()=" + isSilla() + ", isViajeLargo()="
+                + isViajeLargo() + ", toString()=" + super.toString() + "]";
     }
 
 }

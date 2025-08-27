@@ -13,6 +13,9 @@ public class ReservaCreateDTO {
     private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
     // Campos de precio (pueden venir 0).
     private Double precio;
@@ -122,6 +125,30 @@ public class ReservaCreateDTO {
 
     public void setRequisitos(String requisitos) {
         this.requisitos = requisitos;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
     }
 
 }
