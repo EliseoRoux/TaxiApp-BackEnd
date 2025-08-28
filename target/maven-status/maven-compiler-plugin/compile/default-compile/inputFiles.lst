@@ -1,20 +1,41 @@
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\service\ConductorService.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\CentralTaxisApplication.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\model\Conductor.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\controller\ClienteController.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\repository\ConductorRepository.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\model\Servicio.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\repository\ClienteRepository.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\exception\ResourceNotFoundException.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\repository\ServicioRepository.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\repository\ReservaRepository.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\controller\ReservaController.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\controller\ServicioController.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\exception\GlobalExceptionHandler.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\service\ServicioService.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\config\CorsConfig.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\service\ReservaService.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\model\Cliente.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\service\ClienteService.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\model\Reserva.java
-C:\Users\pc\OneDrive\Desktop\ProyectoTaxi\TaxiApp\src\main\java\com\centraltaxis\controller\ConductorController.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\repository\ServicioRepository.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\controller\ReservaController.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ServicioCreateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\controller\ClienteController.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\mapper\ReservaMapper.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\cliente\ClienteUpdateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\model\Servicio.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ClienteBriefDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ServicioResponseDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\cliente\ClienteResponseDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\repository\ClienteRepository.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\reserva\ReservaCreateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\conductor\ConductorCreateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ServicioPatchDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\reserva\ReservaUpdateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\mapper\ClienteMapper.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\mapper\ServicioMapper.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\reserva\ConductorBriefDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ServicioUpdateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\exception\ResourceNotFoundException.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\reserva\ReservaResponseDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\mapper\ConductorMapper.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\cliente\ClienteCreateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\CentralTaxisApplication.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\model\Conductor.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\model\Reserva.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\service\ServicioService.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\conductor\ConductorUpdateDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\service\ConductorService.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\model\Cliente.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\repository\ReservaRepository.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\servicio\ConductorBriefDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\reserva\ClienteBriefDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\service\ClienteService.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\service\ReservaService.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\controller\ConductorController.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\dto\conductor\ConductorResponseDTO.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\config\CorsConfig.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\exception\GlobalExceptionHandler.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\repository\ConductorRepository.java
+C:\Users\elise\Desktop\Proyecto Taxi\TaxiApp-BackEnd\src\main\java\com\centraltaxis\controller\ServicioController.java
