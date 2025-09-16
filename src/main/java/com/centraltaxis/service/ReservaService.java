@@ -1,111 +1,119 @@
 package com.centraltaxis.service;
 
-import com.centraltaxis.model.Reserva;
-import com.centraltaxis.repository.ReservaRepository;
-import com.centraltaxis.repository.ClienteRepository;
-import com.centraltaxis.model.Cliente;
-import com.centraltaxis.repository.ConductorRepository;
-import com.centraltaxis.model.Conductor;
-import com.centraltaxis.mapper.ReservaMapper;
 import com.centraltaxis.dto.reserva.ReservaCreateDTO;
-
-import java.util.List;
-
+import com.centraltaxis.mapper.ReservaMapper;
+import com.centraltaxis.model.Cliente;
+import com.centraltaxis.model.Conductor;
+import com.centraltaxis.model.Reserva;
+import com.centraltaxis.repository.ClienteRepository;
+import com.centraltaxis.repository.ConductorRepository;
+import com.centraltaxis.repository.ReservaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class ReservaService {
 
     @Autowired
     private ReservaRepository reservaRepository;
-    
     @Autowired
     private ClienteRepository clienteRepository;
-    
     @Autowired
     private ConductorRepository conductorRepository;
-    
     @Autowired
     private ReservaMapper reservaMapper;
 
-    // Método para crear una nueva reserva desde DTO
     @Transactional
     public Reserva crearReserva(ReservaCreateDTO reservaDTO) {
         Reserva reserva = reservaMapper.toEntity(reservaDTO);
-        return guardarReserva(reserva);
-    }
 
-    // Método para guardar o actualizar una reserva (mantenido para compatibilidad)
-    @Transactional
-    public Reserva guardarReserva(Reserva reserva) {
-        // Buscamos el cliente por el telefono
-        Cliente clienteExistente = clienteRepository.findByTelefono(reserva.getCliente().getTelefono());
-        
-        // Si el cliente no existe, creamos un nuevo cliente
-        if (clienteExistente == null) {
-            Cliente nuevoCliente = new Cliente();
-            nuevoCliente.setNombre(reserva.getCliente().getNombre());
-            nuevoCliente.setTelefono(reserva.getCliente().getTelefono());
-            nuevoCliente = clienteRepository.save(nuevoCliente);
-            reserva.setCliente(nuevoCliente);
-        } else {
-            // Si existe, actualizamos el nombre por si ha cambiado y lo asignamos
-            clienteExistente.setNombre(reserva.getCliente().getNombre());
-            clienteRepository.save(clienteExistente);
-            reserva.setCliente(clienteExistente);
-        }
+        Cliente cliente = gestionarCliente(reservaDTO.getClienteNombre(), reservaDTO.getClienteTelefono());
+        reserva.setCliente(cliente);
 
-        // Manejo del conductor
-        if (reserva.getConductor() != null && reserva.getConductor().getIdConductor() != 0) {
-            Conductor conductor = conductorRepository.findById(reserva.getConductor().getIdConductor())
-                    .orElseThrow(() -> new RuntimeException("Conductor no encontrado"));
+        // --- LÓGICA CORREGIDA ---
+        if (reservaDTO.getIdConductor() != null) {
+            Conductor conductor = conductorRepository.findById(reservaDTO.getIdConductor())
+                    .orElseThrow(() -> new RuntimeException(
+                            "Conductor no encontrado con ID: " + reservaDTO.getIdConductor()));
             reserva.setConductor(conductor);
-        } else {
-            reserva.setConductor(null);
         }
-        
+
         return reservaRepository.save(reserva);
     }
 
-    // Método para actualizar una reserva desde DTO
-    @Transactional
-    public Reserva actualizarReserva(int id, ReservaCreateDTO reservaDTO) {
-        Reserva reservaExistente = buscarReservaPorId(id);
-        reservaMapper.ReservaUpdateDTO(reservaDTO, reservaExistente);
-        return guardarReserva(reservaExistente);
-    }
-
-    // Método para actualización parcial desde DTO
     @Transactional
     public Reserva actualizarReservaParcial(int id, ReservaCreateDTO reservaDTO) {
         Reserva reservaExistente = buscarReservaPorId(id);
         reservaMapper.applyPatch(reservaDTO, reservaExistente);
-        return guardarReserva(reservaExistente);
+
+        if (reservaDTO.getClienteNombre() != null && reservaDTO.getClienteTelefono() != null) {
+            Cliente cliente = gestionarCliente(reservaDTO.getClienteNombre(), reservaDTO.getClienteTelefono());
+            reservaExistente.setCliente(cliente);
+        }
+
+        // --- LÓGICA CORREGIDA ---
+        if (reservaDTO.getIdConductor() != null) {
+            if (reservaDTO.getIdConductor() == 0) {
+                reservaExistente.setConductor(null);
+            } else {
+                Conductor conductor = conductorRepository.findById(reservaDTO.getIdConductor())
+                        .orElseThrow(() -> new RuntimeException(
+                                "Conductor no encontrado con ID: " + reservaDTO.getIdConductor()));
+                reservaExistente.setConductor(conductor);
+            }
+        }
+
+        return reservaRepository.save(reservaExistente);
     }
 
-    // Resto de métodos se mantienen igual...
+    @Transactional
+    public Reserva actualizarReserva(int id, ReservaCreateDTO reservaDTO) {
+        // Esta lógica es prácticamente la misma que la parcial en este caso
+        return actualizarReservaParcial(id, reservaDTO);
+    }
+
+    private Cliente gestionarCliente(String nombre, String telefono) {
+        if (telefono == null || nombre == null) {
+            throw new IllegalArgumentException("Nombre y teléfono del cliente son obligatorios.");
+        }
+        Cliente cliente = clienteRepository.findByTelefono(telefono.trim());
+        if (cliente == null) {
+            cliente = new Cliente();
+            cliente.setNombre(nombre.trim());
+            cliente.setTelefono(telefono.trim());
+        } else {
+            if (!cliente.getNombre().equalsIgnoreCase(nombre.trim())) {
+                cliente.setNombre(nombre.trim());
+            }
+        }
+        return clienteRepository.save(cliente);
+    }
+
+    // --- MÉTODOS DE BÚSQUEDA Y ELIMINACIÓN (SIN CAMBIOS) ---
     public Reserva buscarReservaPorId(int id) {
         return reservaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
     }
 
     public void eliminarReservaPorId(int id) {
-        Reserva reserva = reservaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
-        reservaRepository.delete(reserva);
+        if (!reservaRepository.existsById(id)) {
+            throw new RuntimeException("Reserva no encontrada con ID: " + id);
+        }
+        reservaRepository.deleteById(id);
     }
 
     public List<Reserva> listarReservas() {
         return reservaRepository.findAll();
     }
 
-    public long contarReservas() {
-        return reservaRepository.count();
-    }
-
     public List<Reserva> buscarReservasPorConductor(int idConductor) {
         return reservaRepository.findByConductor_IdConductor(idConductor);
+    }
+
+    public List<Reserva> buscarReservaPorConductorFecha(int idConductor, LocalDate fechaInicio, LocalDate fechaFin) {
+        return reservaRepository.findByConductorAndFechaRango(idConductor, fechaInicio, fechaFin);
     }
 }

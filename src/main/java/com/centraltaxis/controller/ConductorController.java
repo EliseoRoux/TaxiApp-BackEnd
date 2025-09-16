@@ -57,6 +57,18 @@ public class ConductorController {
         return ResponseEntity.ok(conductor);
     }
 
+    @GetMapping("/deudas")
+    public ResponseEntity<List<ConductorResponseDTO>> listarDeudas() {
+        List<ConductorResponseDTO> conductores = conductorService.listarConductoresConDeuda();
+        return ResponseEntity.ok(conductores);
+    }
+
+    @GetMapping("/no-deuda")
+    public ResponseEntity<List<ConductorResponseDTO>> conductorSinDeuda() {
+        List<ConductorResponseDTO> conductores = conductorService.conductoresSinDeuda();
+        return ResponseEntity.ok(conductores);
+    }
+
     // ------------------------------ UPDATE ------------------------------ //
     @PutMapping("/{id}")
     public ResponseEntity<ConductorResponseDTO> actualizarConductor(
@@ -71,12 +83,6 @@ public class ConductorController {
     public ResponseEntity<Void> eliminarConductor(@PathVariable @Min(1) int id) {
         conductorService.eliminarConductorPorId(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/deudas")
-    public ResponseEntity<List<ConductorResponseDTO>> listarDeudas() {
-        List<ConductorResponseDTO> conductores = conductorService.listarConductoresConDeuda();
-        return ResponseEntity.ok(conductores);
     }
 
     @PutMapping("/{id}/pagar-deuda")

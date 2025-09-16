@@ -1,30 +1,37 @@
 package com.centraltaxis.dto.reserva;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservaUpdateDTO {
 
-    // Campos obligatorios de la reserva
     private String origen;
     private String destino;
     private Integer nPersona;
     private LocalDate fecha;
     private Boolean eurotaxi;
     private LocalTime hora;
-
-    // Campos de precio (pueden venir 0).
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
     private Double precio;
     private Double precio10;
-
-    // Conductor opcional
-    private Integer conductorId; // null si no se asigna
-
-    // Datos mínimos del cliente (obligatorios)
     private String clienteNombre;
     private String clienteTelefono;
+    @JsonProperty("idConductor")
+    private Integer idConductor;
 
     public ReservaUpdateDTO() {
+    }
+
+    // --- GETTER Y SETTER ---
+    public Integer getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(Integer idConductor) {
+        this.idConductor = idConductor;
     }
 
     public String getOrigen() {
@@ -75,6 +82,30 @@ public class ReservaUpdateDTO {
         this.hora = hora;
     }
 
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
     public Double getPrecio() {
         return precio;
     }
@@ -89,14 +120,6 @@ public class ReservaUpdateDTO {
 
     public void setPrecio10(Double precio10) {
         this.precio10 = precio10;
-    }
-
-    public Integer getConductorId() {
-        return conductorId;
-    }
-
-    public void setConductorId(Integer conductorId) {
-        this.conductorId = conductorId;
     }
 
     public String getClienteNombre() {
@@ -114,6 +137,4 @@ public class ReservaUpdateDTO {
     public void setClienteTelefono(String clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
     }
-
-    
 }

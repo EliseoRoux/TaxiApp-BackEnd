@@ -6,6 +6,8 @@ import com.centraltaxis.dto.cliente.ClienteUpdateDTO;
 import com.centraltaxis.mapper.ClienteMapper;
 import com.centraltaxis.model.Cliente;
 import com.centraltaxis.repository.ClienteRepository;
+import com.centraltaxis.repository.ReservaRepository;
+import com.centraltaxis.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,12 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private ServicioRepository servicioRepository;
+
+    @Autowired
+    private ReservaRepository reservaRepository;
 
     @Autowired
     private ClienteMapper clienteMapper;
@@ -50,8 +58,24 @@ public class ClienteService {
 
     // Listar todos los clientes como DTOs
     public List<ClienteResponseDTO> listarTodosLosClientes() {
-        return clienteRepository.findAll().stream()
-                .map(clienteMapper::toResponseDTO)
+        List<Cliente> clientes = clienteRepository.findAll();
+
+        return clientes.stream()
+                .map(cliente -> {
+                    // Contar servicios y reservas
+                    Integer serviciosCount = servicioRepository.countByCliente_IdCliente(cliente.getIdCliente());
+                    Integer reservasCount = reservaRepository.countByCliente_IdCliente(cliente.getIdCliente());
+
+                    // Mapear a DTO
+                    ClienteResponseDTO dto = clienteMapper.toResponseDTO(cliente);
+
+                    // Asignar los conteos
+                    dto.setServiciosCount(serviciosCount);
+                    dto.setReservasCount(reservasCount);
+                    dto.setTotalServicios(serviciosCount + reservasCount);
+
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 

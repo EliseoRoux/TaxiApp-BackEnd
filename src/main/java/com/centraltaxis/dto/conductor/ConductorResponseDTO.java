@@ -1,25 +1,34 @@
 package com.centraltaxis.dto.conductor;
 
-/** DTO pequeño para representar conductor en respuestas */
+/** DTO para representar un conductor en las respuestas de la API. */
 public class ConductorResponseDTO {
     private Integer idConductor;
     private String nombre;
     private String telefono;
     private Double deuda;
     private Double dineroGenerado;
+    private Integer asiento;
+    private Integer sillaBebe;
+    private Boolean eurotaxi;
 
-    // Constructor
-    public ConductorResponseDTO() {}
+    // Constructor por defecto
+    public ConductorResponseDTO() {
+    }
 
-    public ConductorResponseDTO(Integer idConductor, String nombre, String telefono, Double deuda, Double dineroGenerado) {
+    // Constructor con todos los parámetros
+    public ConductorResponseDTO(Integer idConductor, String nombre, String telefono, Double deuda,
+            Double dineroGenerado, Integer asiento, Integer sillaBebe, Boolean eurotaxi) {
         this.idConductor = idConductor;
         this.nombre = nombre;
         this.telefono = telefono;
         this.deuda = deuda;
         this.dineroGenerado = dineroGenerado;
+        this.asiento = asiento;
+        this.sillaBebe = sillaBebe;
+        this.eurotaxi = eurotaxi;
     }
 
-    // getters y setters
+    // --- Getters y Setters  ---
     public Integer getIdConductor() {
         return idConductor;
     }
@@ -60,12 +69,27 @@ public class ConductorResponseDTO {
         this.dineroGenerado = dineroGenerado;
     }
 
-    @Override
-    public String toString() {
-        return "ConductorResponseDTO [idConductor=" + idConductor + ", nombre=" + nombre + ", telefono=" + telefono
-                + ", deuda=" + deuda + ", dineroGenerado=" + dineroGenerado + ", getIdConductor()=" + getIdConductor()
-                + ", getNombre()=" + getNombre() + ", getTelefono()=" + getTelefono() + ", getDeuda()=" + getDeuda()
-                + ", getDineroGenerado()=" + getDineroGenerado() + ", getClass()=" + getClass() + ", hashCode()="
-                + hashCode() + ", toString()=" + super.toString() + "]";
+    public Integer getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(Integer asiento) {
+        this.asiento = asiento;
+    }
+
+    public Integer getSillaBebe() {
+        return sillaBebe;
+    }
+
+    public void setSillaBebe(Integer sillaBebe) {
+        this.sillaBebe = sillaBebe;
+    }
+
+    public Boolean getEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(Boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
     }
 }

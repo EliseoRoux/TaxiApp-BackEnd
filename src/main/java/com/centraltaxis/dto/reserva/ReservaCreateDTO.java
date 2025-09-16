@@ -1,11 +1,11 @@
 package com.centraltaxis.dto.reserva;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservaCreateDTO {
 
-    // Campos obligatorios de la reserva
     private String origen;
     private String destino;
     private Integer nPersona;
@@ -13,19 +13,26 @@ public class ReservaCreateDTO {
     private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
-
-    // Campos de precio (pueden venir 0).
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
     private Double precio;
     private Double precio10;
-
-    // Conductor opcional
-    private Integer conductorId; // null si no se asigna
-
-    // Datos mínimos del cliente (obligatorios)
     private String clienteNombre;
     private String clienteTelefono;
+    @JsonProperty("idConductor")
+    private Integer idConductor;
 
     public ReservaCreateDTO() {
+    }
+
+    // --- GETTER Y SETTER ---
+    public Integer getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(Integer idConductor) {
+        this.idConductor = idConductor;
     }
 
     public String getOrigen() {
@@ -56,7 +63,7 @@ public class ReservaCreateDTO {
         return fechaReserva;
     }
 
-    public void setFecha(LocalDate fechaReserva) {
+    public void setFechaReserva(LocalDate fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
 
@@ -76,6 +83,38 @@ public class ReservaCreateDTO {
         this.hora = hora;
     }
 
+    public String getRequisitos() {
+        return requisitos;
+    }
+
+    public void setRequisitos(String requisitos) {
+        this.requisitos = requisitos;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
     public Double getPrecio() {
         return precio;
     }
@@ -90,14 +129,6 @@ public class ReservaCreateDTO {
 
     public void setPrecio10(Double precio10) {
         this.precio10 = precio10;
-    }
-
-    public Integer getConductorId() {
-        return conductorId;
-    }
-
-    public void setConductorId(Integer conductorId) {
-        this.conductorId = conductorId;
     }
 
     public String getClienteNombre() {
@@ -115,13 +146,4 @@ public class ReservaCreateDTO {
     public void setClienteTelefono(String clienteTelefono) {
         this.clienteTelefono = clienteTelefono;
     }
-
-    public String getRequisitos() {
-        return requisitos;
-    }
-
-    public void setRequisitos(String requisitos) {
-        this.requisitos = requisitos;
-    }
-
 }
