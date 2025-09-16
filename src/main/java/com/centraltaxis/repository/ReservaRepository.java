@@ -32,5 +32,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
     * 
     */
 
-   List<Reserva> findByConductor_IdConductor(int idConductor);
+   List<Reserva> findByConductor_IdConductor(Integer idConductor);
+
+   
 }

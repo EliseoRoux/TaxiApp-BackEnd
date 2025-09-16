@@ -30,6 +30,6 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
     * 
     */
 
-   List<Servicio> findByConductor_IdConductor(int idConductor);
+   List<Servicio> findByConductor_IdConductor(Integer idConductor);
 
 }
