@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("/api/reservas")
 @Validated
 public class ReservaController {
 

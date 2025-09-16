@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/servicios")
+@RequestMapping("/api/servicios")
 @Validated
 public class ServicioController {
 
@@ -34,13 +34,11 @@ public class ServicioController {
     // CREATE (POST) -> recibe ServicioCreateDTO, devuelve ServicioResponseDTO
     @PostMapping
     public ResponseEntity<ServicioResponseDTO> crearServicio(@Valid @RequestBody ServicioCreateDTO servicio) {
-        // 1) Mapear DTO -> Entidad (incompleta: el Service resolverá cliente/conductor
-        // reales)
+        //  Mapear DTO -> Entidad 
         Servicio entidad = servicioMapper.toEntity(servicio);
-        // 2) Delegar la lógica (creación cliente si no existe, ajuste de conductor si
-        // aplica, etc.)
+    
         Servicio creado = servicioService.guardarServicio(entidad);
-        // 3) Entidad -> DTO respuesta
+        //  Entidad -> DTO respuesta
         return ResponseEntity.status(201).body(servicioMapper.toResponse(creado));
     }
 
@@ -80,7 +78,7 @@ public class ServicioController {
         Servicio existente = servicioService.buscarServicioPorId(id);
         // 2) Merge DTO -> Entidad
         servicioMapper.mergeIntoEntity(updates, existente);
-        // 3) Delegar lógica a Service (ajustes de conductor/trigger ya en BD)
+        // 3) Delegar lógica a Service 
         Servicio actualizado = servicioService.actualizarServicio(id, existente);
         // 4) Responder
         return ResponseEntity.ok(servicioMapper.toResponse(actualizado));
@@ -95,7 +93,7 @@ public class ServicioController {
         Servicio existente = servicioService.buscarServicioPorId(id);
         // 2) Aplicar sólo campos no-nulos
         servicioMapper.applyPatch(updates, existente);
-        // 3) Delegar a Service (que ajusta lo necesario)
+        // 3) Delegar a Service 
         Servicio actualizado = servicioService.actualizarServicio(id, existente);
         // 4) Responder
         return ResponseEntity.ok(servicioMapper.toResponse(actualizado));
