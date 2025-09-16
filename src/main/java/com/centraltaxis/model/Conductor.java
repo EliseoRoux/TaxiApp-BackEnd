@@ -38,15 +38,27 @@ public class Conductor {
     @Column(name = "dinero_generado", nullable = true)
     private Double dineroGenerado;
 
+    @Column(nullable = true)
+    private Integer asiento;
+
+    @Column(name = "silla_bebe", nullable = true)
+    private Integer sillaBebe;
+
+    @Column()
+    private Boolean eurotaxi;
+
     // Constructor
     public Conductor() {
 
     }
 
-    public Conductor(int idConductor, String nombre, String telefono) {
+    public Conductor(int idConductor, String nombre, String telefono, int asiento, int sillaBebe, boolean eurotaxi) {
         this.idConductor = idConductor;
         this.nombre = nombre;
         this.telefono = telefono;
+        this.asiento = asiento;
+        this.sillaBebe = sillaBebe;
+        this.eurotaxi = eurotaxi;
     }
 
     // Getters
@@ -91,15 +103,49 @@ public class Conductor {
         this.dineroGenerado = dineroGenerado;
     }
 
+    public void setDeuda(Double deuda) {
+        this.deuda = deuda;
+    }
+
+    public void setDineroGenerado(Double dineroGenerado) {
+        this.dineroGenerado = dineroGenerado;
+    }
+
+    public Integer getAsiento() {
+        return asiento;
+    }
+
+    public void setAsiento(int asiento) {
+        this.asiento = asiento;
+    }
+
+    public Integer getSillaBebe() {
+        return sillaBebe;
+    }
+
+    public void setSillaBebe(int sillaBebe) {
+        this.sillaBebe = sillaBebe;
+    }
+
+    public Boolean isEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
+    }
+
     @Override
     public String toString() {
-        return "Conductor{" +
-                "id=" + idConductor +
-                ", nombre='" + nombre + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", deuda=" + deuda +
-                ", dineroGenerado=" + dineroGenerado +
-                '}';
+        return "Conductor [idConductor=" + idConductor + ", nombre=" + nombre + ", telefono=" + telefono + ", deuda="
+                + deuda + ", dineroGenerado=" + dineroGenerado + ", asiento=" + asiento + ", sillaBebe=" + sillaBebe
+                + ", eurotaxi=" + eurotaxi + ", getIdConductor()=" + getIdConductor() + ", getNombre()=" + getNombre()
+                + ", getClass()=" + getClass() + ", getTelefono()=" + getTelefono() + ", getDeuda()=" + getDeuda()
+                + ", getDineroGenerado()=" + getDineroGenerado() + ", getAsiento()=" + getAsiento()
+                + ", getSillaBebe()=" + getSillaBebe() + ", isEurotaxi()=" + isEurotaxi() + ", hashCode()=" + hashCode()
+                + ", toString()=" + super.toString() + "]";
     }
+
+    
 
 }

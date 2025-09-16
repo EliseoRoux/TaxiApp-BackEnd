@@ -36,4 +36,7 @@ public interface ConductorRepository extends JpaRepository<Conductor, Integer> {
     @Query("SELECT c FROM Conductor c WHERE c.deuda > 0")
     List<Conductor> findConductoresConDeuda();
 
+    @Query("SELECT c FROM Conductor c WHERE c.deuda = 0")
+    List<Conductor> findConductoresSinDeuda();
+
 }

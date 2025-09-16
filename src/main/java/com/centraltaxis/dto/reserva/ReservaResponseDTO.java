@@ -4,26 +4,56 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class ReservaResponseDTO {
-
     private int idReserva;
     private String origen;
     private String destino;
     private Integer nPersona;
     private LocalDate fechaReserva;
-    private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
-
-    // Campos de precio (pueden venir 0).
     private Double precio;
     private Double precio10;
+    private Boolean eurotaxi;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
-    // Conductor opcional
     private ConductorBriefDTO conductor;
-    // Datos mínimos del cliente (obligatorios)
     private ClienteBriefDTO cliente;
 
     public ReservaResponseDTO() {
+    }
+
+    public Boolean getEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(Boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
     }
 
     public int getIdReserva() {
@@ -64,14 +94,6 @@ public class ReservaResponseDTO {
 
     public void setFechaReserva(LocalDate fechaReserva) {
         this.fechaReserva = fechaReserva;
-    }
-
-    public Boolean getEurotaxi() {
-        return eurotaxi;
-    }
-
-    public void setEurotaxi(Boolean eurotaxi) {
-        this.eurotaxi = eurotaxi;
     }
 
     public LocalTime getHora() {
@@ -121,6 +143,4 @@ public class ReservaResponseDTO {
     public void setCliente(ClienteBriefDTO cliente) {
         this.cliente = cliente;
     }
-
-    
 }

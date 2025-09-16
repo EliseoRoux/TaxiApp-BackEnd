@@ -9,6 +9,8 @@ public class ClienteResponseDTO {
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
     private Integer totalServicios;
+    private Integer serviciosCount;
+    private Integer reservasCount;
 
     // Constructor por defecto
     public ClienteResponseDTO() {
@@ -22,9 +24,9 @@ public class ClienteResponseDTO {
     }
 
     // Constructor completo
-    public ClienteResponseDTO(Integer idCliente, String nombre, String telefono, 
-                            LocalDateTime fechaCreacion, LocalDateTime fechaActualizacion, 
-                            Integer totalServicios) {
+    public ClienteResponseDTO(Integer idCliente, String nombre, String telefono,
+            LocalDateTime fechaCreacion, LocalDateTime fechaActualizacion,
+            Integer totalServicios) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.telefono = telefono;
@@ -82,15 +84,19 @@ public class ClienteResponseDTO {
         this.totalServicios = totalServicios;
     }
 
-    @Override
-    public String toString() {
-        return "ClienteResponseDTO{" +
-                "idCliente=" + idCliente +
-                ", nombre='" + nombre + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", totalServicios=" + totalServicios +
-                '}';
+    public Integer getServiciosCount() {
+        return serviciosCount;
+    }
+
+    public void setServiciosCount(Integer serviciosCount) {
+        this.serviciosCount = serviciosCount;
+    }
+
+    public Integer getReservasCount() {
+        return reservasCount;
+    }
+
+    public void setReservasCount(Integer reservasCount) {
+        this.reservasCount = reservasCount;
     }
 }

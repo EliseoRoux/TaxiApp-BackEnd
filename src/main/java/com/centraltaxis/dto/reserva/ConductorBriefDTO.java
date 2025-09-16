@@ -3,8 +3,6 @@ package com.centraltaxis.dto.reserva;
 /**
  * DTO pequeño para devolver datos básicos del conductor dentro de un
  * ServicioResponseDTO.
- * Importante: no exponemos deuda/dinero aquí (se vería en una ficha de
- * conductor).
  */
 public class ConductorBriefDTO {
     private int idConductor;

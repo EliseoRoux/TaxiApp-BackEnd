@@ -2,13 +2,8 @@ package com.centraltaxis.dto.servicio;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * DTO de respuesta para enviar la info de un servicio al frontend.
- * Incluye datos básicos de cliente y conductor (brief).
- */
 public class ServicioResponseDTO {
     private int idServicio;
     private String origen;
@@ -18,16 +13,50 @@ public class ServicioResponseDTO {
     private String requisitos;
     private double precio;
     private double precio10;
-    private boolean eurotaxi;
     private LocalTime hora;
+    private Boolean eurotaxi;
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
 
-    private ConductorBriefDTO conductor; // puede ser null
-    private ClienteBriefDTO cliente; // no null 
+    private ConductorBriefDTO conductor;
+    private ClienteBriefDTO cliente;
 
     public ServicioResponseDTO() {
     }
 
-    // Getters/Setters
+    public Boolean getEurotaxi() {
+        return eurotaxi;
+    }
+
+    public void setEurotaxi(Boolean eurotaxi) {
+        this.eurotaxi = eurotaxi;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
     public int getIdServicio() {
         return idServicio;
     }
@@ -52,13 +81,11 @@ public class ServicioResponseDTO {
         this.destino = destino;
     }
 
-    // Obligamos a Jackson a usar exactamente nPersona
     @JsonProperty("nPersona")
     public int getNPersona() {
         return nPersona;
     }
 
-    // Obligamos a Jackson a usar exactamente nPersona
     @JsonProperty("nPersona")
     public void setNPersona(int nPersona) {
         this.nPersona = nPersona;
@@ -94,14 +121,6 @@ public class ServicioResponseDTO {
 
     public void setPrecio10(double precio10) {
         this.precio10 = precio10;
-    }
-
-    public boolean isEurotaxi() {
-        return eurotaxi;
-    }
-
-    public void setEurotaxi(boolean eurotaxi) {
-        this.eurotaxi = eurotaxi;
     }
 
     public LocalTime getHora() {

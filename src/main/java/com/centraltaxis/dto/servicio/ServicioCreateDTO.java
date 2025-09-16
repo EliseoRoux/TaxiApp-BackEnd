@@ -2,17 +2,9 @@ package com.centraltaxis.dto.servicio;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * DTO de creación. Lo que el frontend envía al crear un servicio.
- * - El cliente se envía como nombre + teléfono (buscaremos/crearemos en
- * Service).
- * - El conductor se envía como ID opcional (puede venir null).
- */
 public class ServicioCreateDTO {
-    // Campos obligatorios del servicio
     private String origen;
     private String destino;
     private Integer nPersona;
@@ -20,29 +12,44 @@ public class ServicioCreateDTO {
     private Boolean eurotaxi;
     private LocalTime hora;
     private String requisitos;
-
-    // Campos de precio (pueden venir 0).
-    private Double precio; 
-    private Double precio10; 
-
-    // Conductor opcional
-    private Integer conductorId; // null si no se asigna
-
-    // Datos mínimos del cliente (obligatorios)
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
+    private Double precio;
+    private Double precio10;
     private String clienteNombre;
     private String clienteTelefono;
+    @JsonProperty("idConductor") 
+    private Integer idConductor;
 
     // Constructor
     public ServicioCreateDTO() {
     }
 
-    // Getters/Setters
+    // --- GETTER Y SETTER CORREGIDOS ---
+    public Integer getIdConductor() {
+        return idConductor;
+    }
+
+    public void setIdConductor(Integer idConductor) {
+        this.idConductor = idConductor;
+    }
+
+    // ... (resto de getters y setters sin cambios)
     public String getOrigen() {
         return origen;
     }
 
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
     public String getDestino() {
         return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
     }
 
     @JsonProperty("nPersona")
@@ -50,81 +57,33 @@ public class ServicioCreateDTO {
         return nPersona;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
-    public Boolean getEurotaxi() {
-        return eurotaxi;
-    }
-
-    public LocalTime getHora() {
-        return hora;
-    }
-
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public Double getPrecio10() {
-        return precio10;
-    }
-
-    public Integer getConductorId() {
-        return conductorId;
-    }
-
-    public String getClienteNombre() {
-        return clienteNombre;
-    }
-
-    public String getClienteTelefono() {
-        return clienteTelefono;
-    }
-
-    public void setOrigen(String origen) {
-        this.origen = origen;
-    }
-
-    public void setDestino(String destino) {
-        this.destino = destino;
-    }
-    
     @JsonProperty("nPersona")
     public void setNPersona(Integer nPersona) {
         this.nPersona = nPersona;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
     }
 
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
+    public Boolean getEurotaxi() {
+        return eurotaxi;
+    }
+
     public void setEurotaxi(Boolean eurotaxi) {
         this.eurotaxi = eurotaxi;
     }
 
+    public LocalTime getHora() {
+        return hora;
+    }
+
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public void setPrecio10(Double precio10) {
-        this.precio10 = precio10;
-    }
-
-    public void setConductorId(Integer conductorId) {
-        this.conductorId = conductorId;
-    }
-
-    public void setClienteNombre(String clienteNombre) {
-        this.clienteNombre = clienteNombre;
-    }
-
-    public void setClienteTelefono(String clienteTelefono) {
-        this.clienteTelefono = clienteTelefono;
     }
 
     public String getRequisitos() {
@@ -133,5 +92,61 @@ public class ServicioCreateDTO {
 
     public void setRequisitos(String requisitos) {
         this.requisitos = requisitos;
+    }
+
+    public Boolean getMascota() {
+        return mascota;
+    }
+
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public Double getPrecio10() {
+        return precio10;
+    }
+
+    public void setPrecio10(Double precio10) {
+        this.precio10 = precio10;
+    }
+
+    public String getClienteNombre() {
+        return clienteNombre;
+    }
+
+    public void setClienteNombre(String clienteNombre) {
+        this.clienteNombre = clienteNombre;
+    }
+
+    public String getClienteTelefono() {
+        return clienteTelefono;
+    }
+
+    public void setClienteTelefono(String clienteTelefono) {
+        this.clienteTelefono = clienteTelefono;
     }
 }

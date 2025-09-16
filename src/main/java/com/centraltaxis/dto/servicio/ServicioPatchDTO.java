@@ -1,14 +1,10 @@
 package com.centraltaxis.dto.servicio;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * DTO de actualización parcial (PATCH).
- * - Todos los campos son opcionales (boxed types).
- * - Sólo los no-null se aplicarán.
- */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ServicioPatchDTO {
     private String origen;
@@ -19,25 +15,27 @@ public class ServicioPatchDTO {
     private LocalTime hora;
     private Double precio;
     private Double precio10;
-
-    private Integer conductorId; // null explícito quita conductor
-
+    private Boolean mascota;
+    private Boolean silla;
+    private Boolean viajeLargo;
     private String clienteNombre;
     private String clienteTelefono;
+    @JsonProperty("idConductor")
+    private Integer idConductor;
 
     // Constructor
     public ServicioPatchDTO() {
     }
 
-    public Integer getnPersona() {
-        return nPersona;
+    // --- GETTER Y SETTER  ---
+    public Integer getIdConductor() {
+        return idConductor;
     }
 
-    public void setnPersona(Integer nPersona) {
-        this.nPersona = nPersona;
+    public void setIdConductor(Integer idConductor) {
+        this.idConductor = idConductor;
     }
 
-    // Getters/Setters
     public String getOrigen() {
         return origen;
     }
@@ -102,12 +100,28 @@ public class ServicioPatchDTO {
         this.precio10 = precio10;
     }
 
-    public Integer getConductorId() {
-        return conductorId;
+    public Boolean getMascota() {
+        return mascota;
     }
 
-    public void setConductorId(Integer conductorId) {
-        this.conductorId = conductorId;
+    public void setMascota(Boolean mascota) {
+        this.mascota = mascota;
+    }
+
+    public Boolean getSilla() {
+        return silla;
+    }
+
+    public void setSilla(Boolean silla) {
+        this.silla = silla;
+    }
+
+    public Boolean getViajeLargo() {
+        return viajeLargo;
+    }
+
+    public void setViajeLargo(Boolean viajeLargo) {
+        this.viajeLargo = viajeLargo;
     }
 
     public String getClienteNombre() {
