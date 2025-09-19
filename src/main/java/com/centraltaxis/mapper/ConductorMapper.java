@@ -55,7 +55,7 @@ public class ConductorMapper {
         // Si no es nulo, usamos el valor que tiene.
         dto.setAsiento(conductor.getAsiento() != null ? conductor.getAsiento() : 0);
         dto.setSillaBebe(conductor.getSillaBebe() != null ? conductor.getSillaBebe() : 0);
-        dto.setEurotaxi(conductor.isEurotaxi() != null ? conductor.isEurotaxi() : false);
+        dto.setEurotaxi(conductor.getEurotaxi() != null ? conductor.getEurotaxi() : false);
 
         return dto;
     }

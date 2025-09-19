@@ -70,7 +70,7 @@ public class ConductorController {
     }
 
     // ------------------------------ UPDATE ------------------------------ //
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<ConductorResponseDTO> actualizarConductor(
             @PathVariable @Min(1) int id,
             @Valid @RequestBody ConductorUpdateDTO conductorDTO) {
