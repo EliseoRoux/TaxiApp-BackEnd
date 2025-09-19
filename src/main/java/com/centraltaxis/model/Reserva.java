@@ -2,10 +2,18 @@ package com.centraltaxis.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-// Importamos las anotaciones necesarias para JPA
-import javax.persistence.*;
-// Importamos las anotaciones necesarias para la validación
-import javax.validation.constraints.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -59,11 +67,11 @@ public class Reserva {
 
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser un número positivo")
     @Column(nullable = true)
-    private double precio;
+    private Double precio;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio 10 debe ser un número positivo")
     @Column(name = "precio_10", nullable = true)
-    private double precio10;
+    private Double precio10;
 
     @NotNull(message = "La hora es obligatoria")
     @Column(nullable = false)
@@ -108,6 +116,16 @@ public class Reserva {
     }
 
     // ---------------------------- Getters y Setters ----------------------------
+    @JsonProperty("nPersona")
+    public int getNPersona() {
+        return nPersona;
+    }
+
+    @JsonProperty("nPersona")
+    public void setNPersona(int nPersona) {
+        this.nPersona = nPersona;
+    }
+
     public int getIdReserva() {
         return idReserva;
     }
@@ -117,9 +135,6 @@ public class Reserva {
     }
 
     public Conductor getConductor() {
-        if (conductor == null) {
-            return null; // Permite que el conductor sea nulo
-        }
         return conductor;
     }
 
@@ -151,16 +166,6 @@ public class Reserva {
         this.destino = destino;
     }
 
-    @JsonProperty("nPersona")
-    public int getNPersona() {
-        return nPersona;
-    }
-
-    @JsonProperty("nPersona")
-    public void setNPersona(int nPersona) {
-        this.nPersona = nPersona;
-    }
-
     public LocalDate getFechaReserva() {
         return fechaReserva;
     }
@@ -177,28 +182,20 @@ public class Reserva {
         this.requisitos = requisitos;
     }
 
-    public double getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public double getPrecio10() {
+    public Double getPrecio10() {
         return precio10;
     }
 
-    public void setPrecio10(double precio10) {
+    public void setPrecio10(Double precio10) {
         this.precio10 = precio10;
-    }
-
-    public Boolean isEurotaxi() {
-        return eurotaxi;
-    }
-
-    public void setEurotaxi(boolean eurotaxi) {
-        this.eurotaxi = eurotaxi;
     }
 
     public LocalTime getHora() {
@@ -207,26 +204,6 @@ public class Reserva {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    }
-
-    public Boolean isMascota() {
-        return mascota;
-    }
-
-    public void setMascota(boolean mascota) {
-        this.mascota = mascota;
-    }
-
-    public Boolean isSilla() {
-        return silla;
-    }
-
-    public int getnPersona() {
-        return nPersona;
-    }
-
-    public void setnPersona(int nPersona) {
-        this.nPersona = nPersona;
     }
 
     public Boolean getEurotaxi() {
@@ -259,33 +236,6 @@ public class Reserva {
 
     public void setViajeLargo(Boolean viajeLargo) {
         this.viajeLargo = viajeLargo;
-    }
-
-    public void setSilla(boolean silla) {
-        this.silla = silla;
-    }
-
-    public Boolean isViajeLargo() {
-        return viajeLargo;
-    }
-
-    public void setViajeLargo(boolean viajeLargo) {
-        this.viajeLargo = viajeLargo;
-    }
-
-    @Override
-    public String toString() {
-        return "Reserva [idReserva=" + idReserva + ", conductor=" + conductor + ", cliente=" + cliente + ", origen="
-                + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fechaReserva=" + fechaReserva
-                + ", requisitos=" + requisitos + ", precio=" + precio + ", precio10=" + precio10 + ", hora=" + hora
-                + ", eurotaxi=" + eurotaxi + ", mascota=" + mascota + ", silla=" + silla + ", viajeLargo=" + viajeLargo
-                + ", getClass()=" + getClass() + ", getIdReserva()=" + getIdReserva() + ", getConductor()="
-                + getConductor() + ", hashCode()=" + hashCode() + ", getCliente()=" + getCliente() + ", getOrigen()="
-                + getOrigen() + ", getDestino()=" + getDestino() + ", getNPersona()=" + getNPersona()
-                + ", getFechaReserva()=" + getFechaReserva() + ", getRequisitos()=" + getRequisitos() + ", getPrecio()="
-                + getPrecio() + ", getPrecio10()=" + getPrecio10() + ", isEurotaxi()=" + isEurotaxi() + ", getHora()="
-                + getHora() + ", isMascota()=" + isMascota() + ", isSilla()=" + isSilla() + ", isViajeLargo()="
-                + isViajeLargo() + ", toString()=" + super.toString() + "]";
     }
 
 }

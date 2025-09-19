@@ -2,10 +2,18 @@ package com.centraltaxis.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-// Importamos las anotaciones necesarias para JPA
-import javax.persistence.*;
-// Importamos las anotaciones necesarias para la validación
-import javax.validation.constraints.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +43,7 @@ public class Servicio {
     // cardinalidad y la clave foranea
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = true)
-    @JsonIgnoreProperties({ "servicios" })
+    @JsonIgnoreProperties({"servicios"})
     private Cliente cliente;
 
     // Atributos adicionales de la entidad Servicio
@@ -62,11 +70,11 @@ public class Servicio {
 
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser un número positivo")
     @Column(nullable = true)
-    private double precio;
+    private Double precio;
 
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio 10 debe ser un número positivo")
     @Column(name = "precio_10", nullable = true)
-    private double precio10;
+    private Double precio10;
 
     @NotNull(message = "Indicar si es eurotaxi")
     @Column(nullable = false)
@@ -110,6 +118,16 @@ public class Servicio {
     }
 
     // ---------------------------- Getters y Setters ----------------------------
+    @JsonProperty("nPersona")
+    public int getNPersona() {
+        return nPersona;
+    }
+
+    @JsonProperty("nPersona")
+    public void setNPersona(int nPersona) {
+        this.nPersona = nPersona;
+    }
+
     public int getIdServicio() {
         return idServicio;
     }
@@ -150,16 +168,6 @@ public class Servicio {
         this.destino = destino;
     }
 
-    @JsonProperty("nPersona")
-    public int getNPersona() {
-        return nPersona;
-    }
-
-    @JsonProperty("nPersona")
-    public void setNPersona(int nPersona) {
-        this.nPersona = nPersona;
-    }
-
     public LocalDate getFecha() {
         return fecha;
     }
@@ -176,27 +184,27 @@ public class Servicio {
         this.requisitos = requisitos;
     }
 
-    public double getPrecio() {
+    public Double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(Double precio) {
         this.precio = precio;
     }
 
-    public double getPrecio10() {
+    public Double getPrecio10() {
         return precio10;
     }
 
-    public void setPrecio10(double precio10) {
+    public void setPrecio10(Double precio10) {
         this.precio10 = precio10;
     }
 
-    public Boolean isEurotaxi() {
+    public Boolean getEurotaxi() {
         return eurotaxi;
     }
 
-    public void setEurotaxi(boolean eurotaxi) {
+    public void setEurotaxi(Boolean eurotaxi) {
         this.eurotaxi = eurotaxi;
     }
 
@@ -206,34 +214,6 @@ public class Servicio {
 
     public void setHora(LocalTime hora) {
         this.hora = hora;
-    }
-
-    public int getnPersona() {
-        return nPersona;
-    }
-
-    public void setnPersona(int nPersona) {
-        this.nPersona = nPersona;
-    }
-
-    public Boolean isMascota() {
-        return mascota;
-    }
-
-    public void setMascota(boolean mascota) {
-        this.mascota = mascota;
-    }
-
-    public Boolean isSilla() {
-        return silla;
-    }
-
-    public Boolean getEurotaxi() {
-        return eurotaxi;
-    }
-
-    public void setEurotaxi(Boolean eurotaxi) {
-        this.eurotaxi = eurotaxi;
     }
 
     public Boolean getMascota() {
@@ -260,32 +240,4 @@ public class Servicio {
         this.viajeLargo = viajeLargo;
     }
 
-    public void setSilla(boolean silla) {
-        this.silla = silla;
-    }
-
-    public Boolean isViajeLargo() {
-        return viajeLargo;
-    }
-
-    public void setViajeLargo(boolean viajeLargo) {
-        this.viajeLargo = viajeLargo;
-    }
-
-    @Override
-    public String toString() {
-        return "Servicio [idServicio=" + idServicio + ", conductor=" + conductor + ", cliente=" + cliente + ", origen="
-                + origen + ", destino=" + destino + ", nPersona=" + nPersona + ", fecha=" + fecha + ", requisitos="
-                + requisitos + ", precio=" + precio + ", precio10=" + precio10 + ", eurotaxi=" + eurotaxi + ", hora="
-                + hora + ", mascota=" + mascota + ", silla=" + silla + ", viajeLargo=" + viajeLargo + ", getClass()="
-                + getClass() + ", getIdServicio()=" + getIdServicio() + ", getConductor()=" + getConductor()
-                + ", hashCode()=" + hashCode() + ", getCliente()=" + getCliente() + ", getOrigen()=" + getOrigen()
-                + ", getDestino()=" + getDestino() + ", getNPersona()=" + getNPersona() + ", getFecha()=" + getFecha()
-                + ", getRequisitos()=" + getRequisitos() + ", getPrecio()=" + getPrecio() + ", getPrecio10()="
-                + getPrecio10() + ", isEurotaxi()=" + isEurotaxi() + ", getHora()=" + getHora() + ", getnPersona()="
-                + getnPersona() + ", isMascota()=" + isMascota() + ", isSilla()=" + isSilla() + ", isViajeLargo()="
-                + isViajeLargo() + ", toString()=" + super.toString() + "]";
-    }
-
-    
 }
