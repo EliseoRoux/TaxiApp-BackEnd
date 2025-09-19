@@ -11,6 +11,7 @@ import com.centraltaxis.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime; // Asegúrate de que esta importación exista
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,31 +30,38 @@ public class ClienteService {
     @Autowired
     private ClienteMapper clienteMapper;
 
-    // Crear cliente desde DTO
+    // --- LÓGICA DE CREACIÓN CORREGIDA ---
     public ClienteResponseDTO crearCliente(ClienteCreateDTO clienteCreateDTO) {
         Cliente cliente = clienteMapper.toEntity(clienteCreateDTO);
+
+        // Asignamos las fechas en el momento de la creación
+        cliente.setFechaCreacion(LocalDateTime.now());
+        cliente.setFechaActualizacion(LocalDateTime.now());
+
         Cliente clienteGuardado = clienteRepository.save(cliente);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
 
-    // Actualizar cliente completo desde DTO
+    // --- LÓGICA DE ACTUALIZACIÓN CORREGIDA ---
     public ClienteResponseDTO actualizarCliente(int id, ClienteUpdateDTO clienteUpdateDTO) {
         Cliente clienteExistente = buscarClienteEntidadPorId(id);
-        Cliente clienteActualizado = clienteMapper.toEntity(clienteUpdateDTO, clienteExistente);
-        Cliente clienteGuardado = clienteRepository.save(clienteActualizado);
+
+        // El mapper aplica los cambios del DTO
+        clienteMapper.updateEntityFromDTO(clienteUpdateDTO, clienteExistente);
+
+        // Actualizamos la fecha de modificación
+        clienteExistente.setFechaActualizacion(LocalDateTime.now());
+
+        Cliente clienteGuardado = clienteRepository.save(clienteExistente);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
 
     // Eliminar cliente por ID
     public void eliminarCliente(int id) {
         Cliente cliente = buscarClienteEntidadPorId(id);
+        // Aquí podrías añadir lógica para gestionar sus servicios/reservas si fuera
+        // necesario
         clienteRepository.delete(cliente);
-    }
-
-    // Obtener cliente como DTO
-    public ClienteResponseDTO obtenerClientePorId(int id) {
-        Cliente cliente = buscarClienteEntidadPorId(id);
-        return clienteMapper.toResponseDTO(cliente);
     }
 
     // Listar todos los clientes como DTOs
@@ -62,30 +70,28 @@ public class ClienteService {
 
         return clientes.stream()
                 .map(cliente -> {
-                    // Contar servicios y reservas
                     Integer serviciosCount = servicioRepository.countByCliente_IdCliente(cliente.getIdCliente());
                     Integer reservasCount = reservaRepository.countByCliente_IdCliente(cliente.getIdCliente());
-
-                    // Mapear a DTO
                     ClienteResponseDTO dto = clienteMapper.toResponseDTO(cliente);
-
-                    // Asignar los conteos
                     dto.setServiciosCount(serviciosCount);
                     dto.setReservasCount(reservasCount);
                     dto.setTotalServicios(serviciosCount + reservasCount);
-
                     return dto;
                 })
                 .collect(Collectors.toList());
     }
 
-    // Método interno para buscar entidad (no expuesto)
+    // --- MÉTODOS DE BÚSQUEDA (SIN CAMBIOS) ---
+    public ClienteResponseDTO obtenerClientePorId(int id) {
+        Cliente cliente = buscarClienteEntidadPorId(id);
+        return clienteMapper.toResponseDTO(cliente);
+    }
+
     private Cliente buscarClienteEntidadPorId(int id) {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cliente no encontrado con ID: " + id));
     }
 
-    // Método adicional útil: buscar por teléfono
     public ClienteResponseDTO buscarClientePorTelefono(String telefono) {
         Cliente cliente = clienteRepository.findByTelefono(telefono);
         if (cliente == null) {
@@ -94,7 +100,6 @@ public class ClienteService {
         return clienteMapper.toResponseDTO(cliente);
     }
 
-    // Método adicional: verificar existencia
     public boolean existeCliente(int id) {
         return clienteRepository.existsById(id);
     }

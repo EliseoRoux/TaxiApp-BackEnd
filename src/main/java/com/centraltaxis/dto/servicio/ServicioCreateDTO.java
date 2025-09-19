@@ -35,7 +35,6 @@ public class ServicioCreateDTO {
         this.idConductor = idConductor;
     }
 
-    // ... (resto de getters y setters sin cambios)
     public String getOrigen() {
         return origen;
     }

@@ -61,50 +61,40 @@ public class Conductor {
         this.eurotaxi = eurotaxi;
     }
 
-    // Getters
     public int getIdConductor() {
         return idConductor;
+    }
+
+    public void setIdConductor(int idConductor) {
+        this.idConductor = idConductor;
     }
 
     public String getNombre() {
         return nombre;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public double getDeuda() {
-        return deuda;
-    }
-
-    public double getDineroGenerado() {
-        return dineroGenerado;
-    }
-
-    // Setters
-    public void setIdConductor(int idConductor) {
-        this.idConductor = idConductor;
-    }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTelefono() {
+        return telefono;
     }
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
-    public void setDeuda(double deuda) {
-        this.deuda = deuda;
-    }
-
-    public void setDineroGenerado(double dineroGenerado) {
-        this.dineroGenerado = dineroGenerado;
+    public Double getDeuda() {
+        return deuda;
     }
 
     public void setDeuda(Double deuda) {
         this.deuda = deuda;
+    }
+
+    public Double getDineroGenerado() {
+        return dineroGenerado;
     }
 
     public void setDineroGenerado(Double dineroGenerado) {
@@ -115,7 +105,7 @@ public class Conductor {
         return asiento;
     }
 
-    public void setAsiento(int asiento) {
+    public void setAsiento(Integer asiento) {
         this.asiento = asiento;
     }
 
@@ -123,29 +113,18 @@ public class Conductor {
         return sillaBebe;
     }
 
-    public void setSillaBebe(int sillaBebe) {
+    public void setSillaBebe(Integer sillaBebe) {
         this.sillaBebe = sillaBebe;
     }
 
-    public Boolean isEurotaxi() {
+    public Boolean getEurotaxi() {
         return eurotaxi;
     }
 
-    public void setEurotaxi(boolean eurotaxi) {
+    public void setEurotaxi(Boolean eurotaxi) {
         this.eurotaxi = eurotaxi;
     }
 
-    @Override
-    public String toString() {
-        return "Conductor [idConductor=" + idConductor + ", nombre=" + nombre + ", telefono=" + telefono + ", deuda="
-                + deuda + ", dineroGenerado=" + dineroGenerado + ", asiento=" + asiento + ", sillaBebe=" + sillaBebe
-                + ", eurotaxi=" + eurotaxi + ", getIdConductor()=" + getIdConductor() + ", getNombre()=" + getNombre()
-                + ", getClass()=" + getClass() + ", getTelefono()=" + getTelefono() + ", getDeuda()=" + getDeuda()
-                + ", getDineroGenerado()=" + getDineroGenerado() + ", getAsiento()=" + getAsiento()
-                + ", getSillaBebe()=" + getSillaBebe() + ", isEurotaxi()=" + isEurotaxi() + ", hashCode()=" + hashCode()
-                + ", toString()=" + super.toString() + "]";
-    }
-
-    
+    // ---------------------------- Getters y Setters ----------------------------
 
 }

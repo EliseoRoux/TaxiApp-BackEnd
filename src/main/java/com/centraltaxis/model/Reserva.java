@@ -65,11 +65,11 @@ public class Reserva {
     @Column(nullable = true, length = 255)
     private String requisitos;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "El precio debe ser un número positivo")
+    @DecimalMin(value = "0.0", inclusive = true, message = "El precio debe ser un número positivo")
     @Column(nullable = true)
     private Double precio;
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "El precio 10 debe ser un número positivo")
+    @DecimalMin(value = "0.0", inclusive = true, message = "El precio 10 debe ser un número positivo")
     @Column(name = "precio_10", nullable = true)
     private Double precio10;
 
