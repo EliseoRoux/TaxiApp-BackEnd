@@ -7,13 +7,17 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     // Manejamos los errores de validación (@Valid)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    // Este método captura las excepciones de validación y devuelve un mapa con los errores
+    // Este método captura las excepciones de validación y devuelve un mapa con los
+    // errores
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         // Creamos un mapa para almacenar los errores de validación
         Map<String, String> errores = new HashMap<>();
@@ -27,7 +31,8 @@ public class GlobalExceptionHandler {
 
     // Maneja errores cuando no se encuentra un recurso (ej: cliente no existe)
     @ExceptionHandler(ResourceNotFoundException.class)
-    // Este método captura la excepción ResourceNotFoundException y devuelve un mensaje de error
+    // Este método captura la excepción ResourceNotFoundException y devuelve un
+    // mensaje de error
     public ResponseEntity<String> handleResourceNotFound(ResourceNotFoundException ex) {
         // Devolvemos el mensaje de error con un código de estado 404 (Not Found)
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -37,7 +42,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     // Este método captura cualquier otra excepción y devuelve un mensaje genérico
     public ResponseEntity<String> handleGeneralException(Exception ex) {
-        // Devolvemos un mensaje genérico de error con un código de estado 500 (Internal Server Error)
+        //  Log  vital, Registra el error que nadie más capturó.
+        log.error("Excepción no controlada capturada por el manejador global: ", ex);
+
+        // Devolvemos un mensaje genérico de error con un código de estado 500 (Internal
+        // Server Error)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
     }
 }
