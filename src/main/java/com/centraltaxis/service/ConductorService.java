@@ -66,7 +66,7 @@ public class ConductorService {
 
     /**
      * Elimina un conductor por su ID.
-     * Antes de eliminarlo, busca todas sus reservas asociadas y
+     * Antes de eliminarlo, busca todas sus reservas y servicios asociados y
      * las desvincula (les pone el conductor a null).
      */
     @Transactional

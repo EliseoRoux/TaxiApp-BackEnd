@@ -16,9 +16,12 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class ServicioService {
+    private static final Logger log = LoggerFactory.getLogger(ServicioService.class);
 
     @Autowired
     private ServicioRepository servicioRepository;
@@ -29,10 +32,11 @@ public class ServicioService {
     @Autowired
     private ServicioMapper servicioMapper;
 
-    // --- LÓGICA DE DEUDA  ---
+    // --- LÓGICA DE DEUDA ---
     private void actualizarCuentasConductor(Conductor conductor, Double precio, Double precio10, boolean esSuma) {
         if (conductor == null)
             return;
+        log.debug("Actualizando cuentas del conductor ID: {}. Es suma: {}", conductor.getIdConductor(), esSuma);
 
         double valorPrecio = (precio != null) ? precio : 0.0;
         double valorPrecio10 = (precio10 != null) ? precio10 : 0.0;
@@ -48,25 +52,41 @@ public class ServicioService {
             conductor.setDineroGenerado(dineroGeneradoActual - valorPrecio);
         }
         conductorRepository.save(conductor);
+        log.debug("Cuentas actualizadas. Nueva deuda: {}, Nuevo dinero generado: {}",
+                conductor.getDeuda(), conductor.getDineroGenerado());
     }
 
     @Transactional
     public Servicio crearServicio(ServicioCreateDTO dto) {
-        Servicio servicio = servicioMapper.toEntity(dto);
-        Cliente cliente = gestionarCliente(dto.getClienteNombre(), dto.getClienteTelefono());
-        servicio.setCliente(cliente);
+        log.info("Iniciando la creación de un servicio para el cliente: {}", dto.getClienteNombre());
 
-        if (dto.getIdConductor() != null) {
-            Conductor conductor = conductorRepository.findById(dto.getIdConductor())
-                    .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + dto.getIdConductor()));
-            servicio.setConductor(conductor);
-            actualizarCuentasConductor(conductor, servicio.getPrecio(), servicio.getPrecio10(), true);
+        try {
+            Servicio servicio = servicioMapper.toEntity(dto);
+            Cliente cliente = gestionarCliente(dto.getClienteNombre(), dto.getClienteTelefono());
+            servicio.setCliente(cliente);
+
+            if (dto.getIdConductor() != null) {
+                Conductor conductor = conductorRepository.findById(dto.getIdConductor())
+                        .orElseThrow(
+                                () -> new RuntimeException("Conductor no encontrado con ID: " + dto.getIdConductor()));
+                servicio.setConductor(conductor);
+                actualizarCuentasConductor(conductor, servicio.getPrecio(), servicio.getPrecio10(), true);
+            }
+            Servicio nuevoServicio = servicioRepository.save(servicio);
+            log.info("Servicio creado exitosamente con ID: {}", nuevoServicio.getIdServicio());
+            return nuevoServicio;
+        } catch (Exception e) {
+            log.error("Error al crear el servicio: {}", e.getMessage());
+            throw e;
         }
-        return servicioRepository.save(servicio);
     }
 
     @Transactional
     public Servicio actualizarServicioParcialmente(int id, ServicioPatchDTO dto) {
+        log.info("Iniciando la actualización parcial del servicio con ID: {}", id);
+
+        log.debug("Datos recibidos para la actualización: {}", dto.toString());
+
         Servicio servicioExistente = buscarServicioPorId(id);
 
         Conductor conductorAnterior = servicioExistente.getConductor();
@@ -106,19 +126,24 @@ public class ServicioService {
                 actualizarCuentasConductor(conductorNuevo, diffPrecio, diffPrecio10, true);
             }
         }
-
-        return servicioRepository.save(servicioExistente);
+        Servicio servicioActualizado = servicioRepository.save(servicioExistente);
+        log.info("Servicio con ID: {} actualizado exitosamente.", id);
+        return servicioActualizado;
     }
 
     @Transactional
     public void eliminarServicioPorId(int id) {
+        log.info("Iniciando la eliminación del servicio con ID: {}", id);
         Servicio servicio = buscarServicioPorId(id);
 
         if (servicio.getConductor() != null) {
             actualizarCuentasConductor(servicio.getConductor(), servicio.getPrecio(), servicio.getPrecio10(), false);
+        } else {
+            log.warn("El servicio con ID: {} no tiene un conductor asociado.", id);
         }
 
         servicioRepository.deleteById(id);
+        log.info("Servicio con ID: {} eliminado exitosamente.", id);
     }
 
     private Cliente gestionarCliente(String nombre, String telefono) {
