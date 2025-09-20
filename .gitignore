@@ -1,6 +1,8 @@
 # Datos sensibles
 src/main/resources/application.properties
 
+target\classes\application.properties
+
 # Archivos generados por IDE
 .idea/
 *.iml
