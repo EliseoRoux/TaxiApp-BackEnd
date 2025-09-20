@@ -37,6 +37,8 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
 
    Integer countByCliente_IdCliente(Integer idCliente);
 
+   List<Servicio> findByCliente_IdCliente(Integer idCliente);
+
    // Consulta con rango de fechas
    @Query("SELECT s FROM Servicio s WHERE s.conductor.idConductor = :idConductor " +
          "AND (:fechaInicio IS NULL OR s.fecha >= :fechaInicio) " +

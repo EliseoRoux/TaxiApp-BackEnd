@@ -11,7 +11,7 @@ import com.centraltaxis.repository.ConductorRepository;
 import com.centraltaxis.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,6 +35,7 @@ public class ServicioService {
     private ServicioMapper servicioMapper;
 
     // --- LÓGICA DE DEUDA ---
+    @Transactional
     private void actualizarCuentasConductor(Conductor conductor, Double precio, Double precio10, boolean esSuma) {
         if (conductor == null) {
             return;
@@ -149,6 +150,7 @@ public class ServicioService {
         log.info("Servicio con ID: {} eliminado exitosamente.", id);
     }
 
+    @Transactional
     private Cliente gestionarCliente(String nombre, String telefono) {
         if (telefono == null || nombre == null) {
             throw new IllegalArgumentException("Nombre y teléfono del cliente son obligatorios.");
