@@ -1,5 +1,16 @@
 package com.centraltaxis.service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+// Importamos la clase Logger para registrar eventos
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.centraltaxis.dto.reserva.ReservaCreateDTO;
 import com.centraltaxis.mapper.ReservaMapper;
 import com.centraltaxis.model.Cliente;
@@ -8,16 +19,11 @@ import com.centraltaxis.model.Reserva;
 import com.centraltaxis.repository.ClienteRepository;
 import com.centraltaxis.repository.ConductorRepository;
 import com.centraltaxis.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ReservaService {
+    // Instancia estática del Logger para esta clase
+    private static final Logger log = LoggerFactory.getLogger(ReservaService.class);
 
     @Autowired
     private ReservaRepository reservaRepository;
@@ -30,8 +36,10 @@ public class ReservaService {
 
     // --- LÓGICA DE DEUDA  ---
     private void actualizarCuentasConductor(Conductor conductor, Double precio, Double precio10, boolean esSuma) {
-        if (conductor == null)
+        if (conductor == null) {
             return;
+        }
+        log.debug("Actualizando cuentas del conductor ID: {}. Es suma: {}", conductor.getIdConductor(), esSuma);
 
         double valorPrecio = (precio != null) ? precio : 0.0;
         double valorPrecio10 = (precio10 != null) ? precio10 : 0.0;
@@ -47,10 +55,14 @@ public class ReservaService {
             conductor.setDineroGenerado(dineroGeneradoActual - valorPrecio);
         }
         conductorRepository.save(conductor);
+        log.debug("Cuentas actualizadas. Nueva deuda: {}, Nuevo dinero generado: {}",
+                conductor.getDeuda(), conductor.getDineroGenerado());
     }
 
     @Transactional
     public Reserva crearReserva(ReservaCreateDTO reservaDTO) {
+        log.info("Creando nueva reserva para cliente: {}",
+                reservaDTO.getClienteNombre() + " - " + reservaDTO.getClienteTelefono());
         Reserva reserva = reservaMapper.toEntity(reservaDTO);
         Cliente cliente = gestionarCliente(reservaDTO.getClienteNombre(), reservaDTO.getClienteTelefono());
         reserva.setCliente(cliente);
@@ -58,16 +70,21 @@ public class ReservaService {
         if (reservaDTO.getIdConductor() != null) {
             Conductor conductor = conductorRepository.findById(reservaDTO.getIdConductor())
                     .orElseThrow(() -> new RuntimeException(
-                            "Conductor no encontrado con ID: " + reservaDTO.getIdConductor()));
+                    "Conductor no encontrado con ID: " + reservaDTO.getIdConductor()));
             reserva.setConductor(conductor);
             actualizarCuentasConductor(conductor, reserva.getPrecio(), reserva.getPrecio10(), true);
         }
-
-        return reservaRepository.save(reserva);
+        Reserva nuevaReserva = reservaRepository.save(reserva);
+        log.info("Reserva creada exitosamente con ID: {}", nuevaReserva.getIdReserva());
+        return nuevaReserva;
     }
 
     @Transactional
     public Reserva actualizarReservaParcial(int id, ReservaCreateDTO reservaDTO) {
+        log.info("Actualizando reserva ID: {}", id);
+
+        log.debug("Datos recibidos para actualización: {}", reservaDTO.toString());
+
         Reserva reservaExistente = buscarReservaPorId(id);
 
         Conductor conductorAnterior = reservaExistente.getConductor();
@@ -108,18 +125,24 @@ public class ReservaService {
             }
         }
 
-        return reservaRepository.save(reservaExistente);
+        Reserva reservaActualizada = reservaRepository.save(reservaExistente);
+        log.info("Reserva con ID: {} actualizada exitosamente.", id);
+        return reservaActualizada;
     }
 
     @Transactional
     public void eliminarReservaPorId(int id) {
+        log.info("Eliminando reserva con ID: {}", id);
         Reserva reserva = buscarReservaPorId(id);
 
         if (reserva.getConductor() != null) {
             actualizarCuentasConductor(reserva.getConductor(), reserva.getPrecio(), reserva.getPrecio10(), false);
+        } else {
+            log.debug("La reserva con ID: {} no tiene conductor asignado. No se actualizan cuentas.", id);
         }
 
         reservaRepository.deleteById(id);
+        log.info("Reserva con ID: {} eliminada exitosamente.", id);
     }
 
     private Cliente gestionarCliente(String nombre, String telefono) {

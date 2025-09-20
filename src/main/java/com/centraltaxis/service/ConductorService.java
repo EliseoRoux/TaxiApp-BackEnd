@@ -21,8 +21,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+// Importamos la clase Logger para registrar eventos
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class ConductorService {
+    // Instancia estática del Logger para esta clase
+    private static final Logger log = LoggerFactory.getLogger(ConductorService.class);
 
     @Autowired
     private ConductorRepository conductorRepository;
@@ -37,17 +43,22 @@ public class ConductorService {
     private ConductorMapper conductorMapper;
 
     public ConductorResponseDTO crearConductor(ConductorCreateDTO dto) {
+        log.info("Creando nuevo conductor: {}", dto.getNombre());
         Conductor conductor = conductorMapper.toEntity(dto);
         Conductor guardado = conductorRepository.save(conductor);
+        log.info("Conductor creado con ID: {}", guardado.getIdConductor());
         return conductorMapper.toResponseDTO(guardado);
     }
 
     public ConductorResponseDTO actualizarConductor(int id, ConductorUpdateDTO dto) {
+        log.info("Actualizando conductor con ID: {}", id);
+        log.debug("Datos recibidos para actualización: {}", dto.toString());
         Conductor conductor = conductorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));
 
         conductorMapper.updateEntity(dto, conductor);
         Conductor actualizado = conductorRepository.save(conductor);
+        log.info("Conductor con ID: {} actualizado exitosamente.", id);
         return conductorMapper.toResponseDTO(actualizado);
     }
 
@@ -71,6 +82,7 @@ public class ConductorService {
      */
     @Transactional
     public void eliminarConductorPorId(int id) {
+        log.info("Eliminando conductor con ID: {}", id);
         if (!conductorRepository.existsById(id)) {
             throw new RuntimeException("Conductor no encontrado con ID: " + id);
         }
@@ -93,6 +105,7 @@ public class ConductorService {
 
         // elimina al conductor
         conductorRepository.deleteById(id);
+        log.info("Conductor con ID: {} eliminado exitosamente.", id);
     }
 
     public List<ConductorResponseDTO> listarConductoresConDeuda() {
