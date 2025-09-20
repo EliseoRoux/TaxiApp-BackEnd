@@ -10,6 +10,9 @@ import com.centraltaxis.repository.ReservaRepository;
 import com.centraltaxis.repository.ServicioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+// Importamos la clase Logger para registrar eventos
+import org.slf4j.Logger;  
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime; // Asegúrate de que esta importación exista
 import java.util.List;
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
+    // Instancia estática del Logger para esta clase
+    private static final Logger log = LoggerFactory.getLogger(ClienteService.class);
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -32,6 +37,7 @@ public class ClienteService {
 
     // --- LÓGICA DE CREACIÓN CORREGIDA ---
     public ClienteResponseDTO crearCliente(ClienteCreateDTO clienteCreateDTO) {
+        log.info("Creando nuevo cliente: {}", clienteCreateDTO.getNombre());
         Cliente cliente = clienteMapper.toEntity(clienteCreateDTO);
 
         // Asignamos las fechas en el momento de la creación
@@ -39,11 +45,14 @@ public class ClienteService {
         cliente.setFechaActualizacion(LocalDateTime.now());
 
         Cliente clienteGuardado = clienteRepository.save(cliente);
+        log.info("Cliente creado con ID: {}", clienteGuardado.getIdCliente());
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
 
     // --- LÓGICA DE ACTUALIZACIÓN CORREGIDA ---
     public ClienteResponseDTO actualizarCliente(int id, ClienteUpdateDTO clienteUpdateDTO) {
+        log.info("Actualizando cliente con ID: {}", id);
+        log.debug("Datos recibidos para actualización: {}", clienteUpdateDTO.toString());
         Cliente clienteExistente = buscarClienteEntidadPorId(id);
 
         // El mapper aplica los cambios del DTO
@@ -53,15 +62,18 @@ public class ClienteService {
         clienteExistente.setFechaActualizacion(LocalDateTime.now());
 
         Cliente clienteGuardado = clienteRepository.save(clienteExistente);
+        log.info("Cliente con ID: {} actualizado exitosamente.", id);
         return clienteMapper.toResponseDTO(clienteGuardado);
     }
 
     // Eliminar cliente por ID
     public void eliminarCliente(int id) {
+        log.info("Eliminando cliente con ID: {}", id);
         Cliente cliente = buscarClienteEntidadPorId(id);
         // Aquí podrías añadir lógica para gestionar sus servicios/reservas si fuera
         // necesario
         clienteRepository.delete(cliente);
+        log.info("Cliente con ID: {} eliminado exitosamente.", id);
     }
 
     // Listar todos los clientes como DTOs

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    // Instancia estática del Logger para esta clase
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     // Manejamos los errores de validación (@Valid)

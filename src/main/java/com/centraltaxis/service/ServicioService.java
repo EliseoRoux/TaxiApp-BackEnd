@@ -16,11 +16,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+// Importamos la clase Logger para registrar eventos
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
 public class ServicioService {
+    // Instancia estática del Logger para esta clase
     private static final Logger log = LoggerFactory.getLogger(ServicioService.class);
 
     @Autowired
@@ -34,8 +36,9 @@ public class ServicioService {
 
     // --- LÓGICA DE DEUDA ---
     private void actualizarCuentasConductor(Conductor conductor, Double precio, Double precio10, boolean esSuma) {
-        if (conductor == null)
+        if (conductor == null) {
             return;
+        }
         log.debug("Actualizando cuentas del conductor ID: {}. Es suma: {}", conductor.getIdConductor(), esSuma);
 
         double valorPrecio = (precio != null) ? precio : 0.0;
