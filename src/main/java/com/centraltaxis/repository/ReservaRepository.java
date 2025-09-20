@@ -40,6 +40,8 @@ public interface ReservaRepository extends JpaRepository<Reserva, Integer> {
 
    Integer countByCliente_IdCliente(Integer idCliente);
 
+   List<Reserva> findByCliente_IdCliente(Integer idCliente);
+
    // Este método es más avanzado: busca las reservas de un conductor
    // dentro de un rango de fechas opcional.
    @Query("SELECT r FROM Reserva r WHERE r.conductor.idConductor = :idConductor " +

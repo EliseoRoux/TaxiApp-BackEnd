@@ -15,7 +15,7 @@ import com.centraltaxis.repository.ServicioRepository;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 // Importamos las anotaciones necesarias para el servicio
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,7 @@ public class ConductorService {
     @Autowired
     private ConductorMapper conductorMapper;
 
+    @Transactional
     public ConductorResponseDTO crearConductor(ConductorCreateDTO dto) {
         log.info("Creando nuevo conductor: {}", dto.getNombre());
         Conductor conductor = conductorMapper.toEntity(dto);
@@ -50,6 +51,7 @@ public class ConductorService {
         return conductorMapper.toResponseDTO(guardado);
     }
 
+    @Transactional
     public ConductorResponseDTO actualizarConductor(int id, ConductorUpdateDTO dto) {
         log.info("Actualizando conductor con ID: {}", id);
         log.debug("Datos recibidos para actualización: {}", dto.toString());
@@ -122,6 +124,7 @@ public class ConductorService {
                 .toList();
     }
 
+    @Transactional
     public ConductorResponseDTO pagarDeuda(int id) {
         Conductor conductor = conductorRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conductor no encontrado con ID: " + id));

@@ -35,6 +35,7 @@ public class ReservaService {
     private ReservaMapper reservaMapper;
 
     // --- LÓGICA DE DEUDA  ---
+    @Transactional
     private void actualizarCuentasConductor(Conductor conductor, Double precio, Double precio10, boolean esSuma) {
         if (conductor == null) {
             return;
@@ -145,6 +146,7 @@ public class ReservaService {
         log.info("Reserva con ID: {} eliminada exitosamente.", id);
     }
 
+    @Transactional
     private Cliente gestionarCliente(String nombre, String telefono) {
         if (telefono == null || nombre == null) {
             throw new IllegalArgumentException("Nombre y teléfono del cliente son obligatorios.");
