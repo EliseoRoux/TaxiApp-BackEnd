@@ -3,6 +3,7 @@ package com.centraltaxis;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -22,10 +23,11 @@ public class CentralTaxisApplication implements CommandLineRunner {
         Boolean rlsEnabled = (Boolean) entityManager
                 .createNativeQuery("SELECT EXISTS (SELECT 1 FROM pg_policies WHERE tablename = 'cliente')")
                 .getSingleResult();
-        
+
         System.out.println("\n=== Configuración de Supabase ===");
         System.out.println(" Conexión exitosa a Supabase");
         System.out.println(" RLS habilitado: " + (rlsEnabled ? "SÍ" : "NO"));
         System.out.println("Modo desarrollo: políticas permisivas activas\n");
     }
+
 }
